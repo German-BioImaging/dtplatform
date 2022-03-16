@@ -1,0 +1,10 @@
+channels:
+  - defaults
+dependencies:
+  - ipython
+  - pandas
+  - requests
+  - rich
+  - pip
+  - pip:
+    - rich-tools
