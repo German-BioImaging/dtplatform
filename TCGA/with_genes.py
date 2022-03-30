@@ -42,7 +42,9 @@ if __name__ == "__main__":
         for outer in r.json()["data"]["viewer"]["explore"]["ssms"]["hits"]["edges"]:
             for inner in outer["node"]["consequence"]["hits"]["edges"]:
                 symbol = inner["node"]["transcript"]["gene"]["symbol"]
-                genes[symbol].append(case)
+                impact = inner["node"]["transcript"]["annotation"]["vep_impact"]
+                if impact not in ("LOW", "MODERATE"):
+                    genes[f"{symbol}/{impact}"].append(case)
 
     for k, v in sorted(genes.items()):
         print(f"{k} ({len(v)}) = {' '.join(v)}")
