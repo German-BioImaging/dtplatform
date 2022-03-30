@@ -83,9 +83,23 @@ query ExploreCasesTable_relayQuery(
 }""",
     "variables":{"filters":{"op":"and","content":[{"content":{"field":"cases.diagnoses.tissue_or_organ_of_origin","value":["axillary tail of breast","breast, nos","central portion of breast","lower-inner quadrant of breast","lower-outer quadrant of breast","nipple","overlapping lesion of breast","upper-inner quadrant of breast","upper-outer quadrant of breast"]},"op":"in"},{"content":{"field":"cases.primary_site","value":["breast"]},"op":"in"},{"op":"in","content":{"field":"cases.project.program.name","value":["TCGA"]}}]},"cases_size":20,"cases_offset":0,"cases_score":"gene.gene_id","cases_sort":[]}}
 
-if __name__ == "__main__":
+def breast_rows():
     r = graphql(breast())
-    data = [x["node"] for x in r.json()["data"]["exploreCasesTableViewer"]["explore"]["cases"]["hits"]["edges"]]
-    pprint(data)
-#df = pd.DataFrame(data)
-#pprint(convert_to_rich_table(df))
+    for x in r.json()["data"]["exploreCasesTableViewer"]["explore"]["cases"]["hits"]["edges"]:
+        example = {'case_id': 'f45aa0b2-f3de-4db5-9730-e5c6c4e2ed3a', 'demographic': {'days_to_death': None, 'ethnicity': 'hispanic or latino', 'gender': 'female', 'race': 'white', 'vital_status': 'Alive'}, 'diagnoses': {'hits': {'edges': [{'node': {'age_at_diagnosis': 14316.0, 'id': 'RURpYWdub3NpczpmNDVhYTBiMi1mM2RlLTRkYjUtOTczMC1lNWM2YzRlMmVkM2E6Mjg4ZWJkNWMtYTZlZi01M2M3LWEyMjMtYzY5Y2RiOWUwNDdh', 'primary_diagnosis': 'Intraductal micropapillary carcinoma'}}]}}, 'disease_type': 'Ductal and Lobular Neoplasms', 'id': 'RUNhc2U6ZjQ1YWEwYjItZjNkZS00ZGI1LTk3MzAtZTVjNmM0ZTJlZDNhIzg5YzhkNjBjODI5NTBlMzE1ZmMxMTIyZjViZDkyYWFlIw==', 'primary_site': 'Breast', 'project': {'id': 'UHJvamVjdDpmNDVhYTBiMi1mM2RlLTRkYjUtOTczMC1lNWM2YzRlMmVkM2EjODljOGQ2MGM4Mjk1MGUzMTVmYzExMjJmNWJkOTJhYWUjOl8=', 'program': {'name': 'TCGA'}, 'project_id': 'TCGA-BRCA'}, 'score': 432, 'submitter_id': 'TCGA-EW-A2FV', 'summary': {'data_categories': [{'data_category': 'Structural Variation', 'file_count': 4.0}, {'data_category': 'Simple Nucleotide Variation', 'file_count': 17.0}, {'data_category': 'Copy Number Variation', 'file_count': 6.0}, {'data_category': 'Transcriptome Profiling', 'file_count': 4.0}, {'data_category': 'DNA Methylation', 'file_count': 3.0}, {'data_category': 'Sequencing Reads', 'file_count': 6.0}, {'data_category': 'Biospecimen', 'file_count': 14.0}, {'data_category': 'Clinical', 'file_count': 10.0}, {'data_category': 'Proteome Profiling', 'file_count': 1.0}], 'experimental_strategies': [{'experimental_strategy': 'RNA-Seq', 'file_count': 9.0}, {'experimental_strategy': 'WXS', 'file_count': 19.0}, {'experimental_strategy': 'miRNA-Seq', 'file_count': 3.0}, {'experimental_strategy': 'Genotyping Array', 'file_count': 6.0}, {'experimental_strategy': 'Methylation Array', 'file_count': 3.0}, {'experimental_strategy': 'Diagnostic Slide', 'file_count': 1.0}, {'experimental_strategy': 'Tissue Slide', 'file_count': 1.0}, {'experimental_strategy': 'Reverse Phase Protein Array', 'file_count': 1.0}], 'file_count': 65.0}}
+        yield x["node"]
+    target = {
+        "case": None,
+        "case_uuid": None,
+        "slide": None,
+        "number": None,
+        "project": None,
+        "project_name": None,
+        "location": None,
+        "date": None,
+        "file_uuid": None,
+        "program": None,
+    }
+if __name__ == "__main__":
+    for row in breast_rows():
+        print(row)
