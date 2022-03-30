@@ -5,7 +5,8 @@ from pprint import pprint
 
 
 # https://portal.gdc.cancer.gov/repository?facetTab=files&filters=%7B%22op%22%3A%22and%22%2C%22content%22%3A%5B%7B%22op%22%3A%22in%22%2C%22content%22%3A%7B%22field%22%3A%22cases.project.program.name%22%2C%22value%22%3A%5B%22TCGA%22%5D%7D%7D%2C%7B%22op%22%3A%22in%22%2C%22content%22%3A%7B%22field%22%3A%22files.data_format%22%2C%22value%22%3A%5B%22svs%22%5D%7D%7D%5D%7D
-slides = {
+def slides():
+    return {
     "id": "q1",
     "query": """
 query Queries($filters_0: FiltersArgument!, $first_1: Int!, $offset_2: Int!) {
@@ -173,7 +174,8 @@ fragment F2 on Root {
 }
 
 # https://portal.gdc.cancer.gov/exploration?filters=%7B%22op%22%3A%22and%22%2C%22content%22%3A%5B%7B%22content%22%3A%7B%22field%22%3A%22cases.diagnoses.tissue_or_organ_of_origin%22%2C%22value%22%3A%5B%22axillary%20tail%20of%20breast%22%2C%22breast%2C%20nos%22%2C%22central%20portion%20of%20breast%22%2C%22lower-inner%20quadrant%20of%20breast%22%2C%22lower-outer%20quadrant%20of%20breast%22%2C%22nipple%22%2C%22overlapping%20lesion%20of%20breast%22%2C%22upper-inner%20quadrant%20of%20breast%22%2C%22upper-outer%20quadrant%20of%20breast%22%5D%7D%2C%22op%22%3A%22in%22%7D%2C%7B%22content%22%3A%7B%22field%22%3A%22cases.primary_site%22%2C%22value%22%3A%5B%22breast%22%5D%7D%2C%22op%22%3A%22in%22%7D%2C%7B%22op%22%3A%22in%22%2C%22content%22%3A%7B%22field%22%3A%22cases.project.program.name%22%2C%22value%22%3A%5B%22TCGA%22%5D%7D%7D%5D%7D
-tcga_breast = {
+def tcga_breast():
+    return {
     "id": "q1",
     "query": """
     query Queries($first_0: Int!, $offset_1: Int!, $filters_2: FiltersArgument!) {
@@ -300,5 +302,6 @@ fragment F1 on Root {
     },
 }
 
-r = graphql(slides)
-pprint(r.json())
+if __name__ == "__main__":
+    r = graphql(tcga_breast())
+    pprint(r.json())

@@ -8,3 +8,8 @@ dependencies:
   - pip
   - pip:
     - rich-tools
+    - sfaira
+    - pywikibot
+    - "mwparserfromhell>=0.5.0"
+    # https://www.mediawiki.org/wiki/Manual:Pywikibot/Installation#Install_Pywikibot
+    # "wikitextparser>=0.47.5"

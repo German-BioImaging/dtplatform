@@ -80,9 +80,10 @@ for sample in sample_to_genes:
         row["Genes"] = sample_to_genes[sample]
         summary = row.pop("summary")
         if summary:
-            for strategy in summary.get("experimental_strategies", []):
-                if strategy.get("experimental_strategy") == "Tissue Slide":
-                    row["Slides"] = strategy.get("file_count", "NA")
-        tbl.append(row)
+            for idx, strategy in enumerate(summary.get("experimental_strategies", [])):
+                s_name = strategy.get("experimental_strategy", f"strategy{idx}")
+                row[s_name] = strategy.get("file_count", "NA")
+                tbl.append(row)
+
 df = pd.DataFrame(tbl)
 rprint(convert_to_rich_table(df))
