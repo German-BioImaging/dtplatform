@@ -21,3 +21,9 @@
 ### AtomGraph
 #### Run
 * Download https://github.com/AtomGraph/LinkedDataHub/blob/master/docker-compose.yml
+
+
+### Other
+
+* https://www.stardog.com/ (possibly see https://github.com/stardog-union/helm-charts)
+* ...
