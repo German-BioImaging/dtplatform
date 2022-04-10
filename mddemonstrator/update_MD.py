@@ -26,6 +26,7 @@ for filename in glob.iglob(root_dir + '**/*.rq', recursive=True):
                 mdFile.new_line("```sparql\n"+line.replace("\n", ""))
             else:
                 mdFile.new_line(line.replace("\n", ""))
+        mdFile.new_line("```\n\n")
     with open(filename) as f:
         sparql_query =str(f.read())
     output = "<iframe style=\"width: 80vw; height: 50vh; border: none;\" src=\"https://query.wikidata.org/embed.html#"+urllib.parse.quote(sparql_query) + "\" referrerpolicy=\"origin\" sandbox=\"allow-scripts allow-same-origin allow-popups\"></iframe>\n\n"
