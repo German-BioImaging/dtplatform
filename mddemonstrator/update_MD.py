@@ -18,7 +18,6 @@ for filename in glob.iglob(root_dir + '**/*.rq', recursive=True):
     print(os.path.dirname(filename).replace(root_dir, ''))
     with open(filename) as f:
         lines = f.readlines()
-        mdFile.new_line("```sparql")
         for line in lines:
             if line.startswith('#title:'):
                 print(line)
@@ -31,9 +30,9 @@ for filename in glob.iglob(root_dir + '**/*.rq', recursive=True):
         sparql_query =str(f.read())
     output = "<iframe style=\"width: 80vw; height: 50vh; border: none;\" src=\"https://query.wikidata.org/embed.html#"+urllib.parse.quote(sparql_query) + "\" referrerpolicy=\"origin\" sandbox=\"allow-scripts allow-same-origin allow-popups\"></iframe>\n\n"
     mdFile.new_paragraph(output)
-
-    #print(filename)
-
+    mdFile.new_line("\n")
+    mdFile.new_line("\n")
+    endpoint="https://query.wikidata.org/#"
 
 
 mdFile.create_md_file()

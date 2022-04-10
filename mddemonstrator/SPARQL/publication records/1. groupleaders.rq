@@ -3,7 +3,6 @@ SELECT * WHERE {
    VALUES ?leapauthor {
        wd:Q59830751
        wd:Q59679079
-       wd:Q59679079
        wd:Q59674360
        wd:Q5107972
        wd:Q39049575

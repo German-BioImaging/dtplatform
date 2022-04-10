@@ -1,0 +1,9 @@
+#title: Genes involved in the immune response to tuberculosis
+SELECT ?gene ?geneLabel WHERE {
+   ?item wdt:P31 wd:Q4915012 ;
+         wdt:P527 ?gene ;
+         wdt:P1050 wd:Q12204 .
+  ?gene wdt:P31 wd:Q7187 .
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+}
+

@@ -1,0 +1,9 @@
+#title: All cell lines associated with glioblastoma
+SELECT ?disease ?diseaseLabel ?cellLines ?cellLinesLabel ?cellosaurusId WHERE {
+  VALUES ?diseaseRoot {  wd:Q282142 }
+  ?cellLines wdt:P3289 ?cellosaurusId ;
+          	wdt:P5166 ?disease .
+   ?disease wdt:P279* ?diseaseRoot .
+	SERVICE wikibase:label { bd:serviceParam wikibase:language "en" } .
+}
+
