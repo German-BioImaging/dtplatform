@@ -1,0 +1,9 @@
+# Requirements file attempting to bypass conda
+# for r dependencies, start with:
+#
+#   conda create -n r_env r-essentials r-base python pip
+#
+-r main_repo/docs/requirements.txt
+sfaira
+tables
+anndata2ri
