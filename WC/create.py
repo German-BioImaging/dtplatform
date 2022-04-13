@@ -38,28 +38,32 @@ def complete_desc_and_upload(filename, pagetitle, description):
     bot = UploadRobot(url, description=description, useFilename=pagetitle, keepFilename=keepFilename, verifyDescription=verifyDescription, targetSite=targetSite)
     bot.run()
 
-def main(args):
+def main(case, case_uuid, slide, number, project, project_name, location, date, file_uuid, program, dryrun=False):
     args = {
-        "case": None,
-        "case_uuid": None,
-        "slide": None,
-        "number": None,
-        "project": None,
-        "project_name": None,
-        "location": None,
-        "date": None,
-        "file_uuid": None,
-        "program": None,
+        "case": case,
+        "case_uuid": case_uuid,
+        "slide": slide,
+        "number": number,
+        "project": project,
+        "project_name": project_name,
+        "location": location,
+        "date": date,
+        "file_uuid": file_uuid,
+        "program": program,
     }
     args["desc"] = desc_template % args
     filename    = name_template % args
     pagetitle   = filename
     desciption  = wiki_template % args
-    #complete_desc_and_upload(filename, pagetitle, description)
+    if dryrun:
+        print(filename + "\n" + description)
+    else:
+        complete_desc_and_upload(filename, pagetitle, description)
 
 
 if __name__ == "__main__":
-    try:
-        main(sys.argv[1:])
-    finally:
-        pywikibot.stopme()
+    for case in sys.argv[1:]:
+        print(case)
+        #(breast_row)
+        #main(sys.argv[1:])
+    pywikibot.stopme()

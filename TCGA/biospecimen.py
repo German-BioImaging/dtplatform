@@ -182,13 +182,13 @@ query BiospecimenCard_relayQuery(
                         },
                         "op": "in",
                     },
-                    {
-                        "content": {
-                            "field": "files.data_type",
-                            "value": ["Biospecimen Supplement", "Slide Image"],
-                        },
-                        "op": "in",
-                    },
+#                   {
+#                       "content": {
+#                           "field": "files.data_type",
+#                           "value": ["Biospecimen Supplement", "Slide Image"],
+#                       },
+#                       "op": "in",
+#                   },
                 ],
                 "op": "and",
             },
@@ -196,7 +196,7 @@ query BiospecimenCard_relayQuery(
     }
 
 
-def biospecimen_parsed(case, data_format=("BCR SSF XML")):
+def biospecimen_parsed(case, data_format=("BCR SSF XML"), filename_pattern="clinical_patient_brca.txt"):
     r = graphql(biospecimen(case))
     for x in r.json()["data"]["viewer"]["repository"]["cases"]["hits"]["edges"]:
         files = x["node"]["files"]
@@ -204,13 +204,22 @@ def biospecimen_parsed(case, data_format=("BCR SSF XML")):
             attrs = fnode["node"]
             if data_format and attrs["data_format"] not in data_format:
                 continue
+            if filename_pattern and filename_pattern not in attrs["file_name"]:
+                continue
             yield fnode["node"]
 
 
 if __name__ == "__main__":
-    # https://portal.gdc.cancer.gov/cases/dcd5860c-7e3a-44f3-a732-fe92fe3fe300
-    for row in biospecimen_parsed("dcd5860c-7e3a-44f3-a732-fe92fe3fe300"):
-        print(row)
+    import sys
+    if len(sys.argv) == 1:
+        # https://portal.gdc.cancer.gov/cases/dcd5860c-7e3a-44f3-a732-fe92fe3fe300
+        rows = biospecimen_parsed("dcd5860c-7e3a-44f3-a732-fe92fe3fe300")
+    else:
+        rows = biospecimen_parsed(sys.argv[1], data_format="BCR Biotab")
+
+    for row in rows:
+        print(row["file_id"])
+        #print(row)
         example = {
             "node": {
                 "case_id": "dcd5860c-7e3a-44f3-a732-fe92fe3fe300",

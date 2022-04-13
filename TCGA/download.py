@@ -15,8 +15,9 @@ def download(*file_uuids):
 
     data_endpt = "https://api.gdc.cancer.gov/data"
     response = requests.post(data_endpt, data = json.dumps(params), headers = {"Content-Type": "application/json"})
-    response_head_cd = response.headers["Content-Disposition"]
-    file_name = re.findall("filename=(.+)", response_head_cd)[0]
+    # Unused
+    # response_head_cd = response.headers["Content-Disposition"]
+    # file_name = re.findall("filename=(.+)", response_head_cd)[0]
     return response.content.decode()
 
 def parse_bcr_date(file_content):

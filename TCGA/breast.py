@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 
-from lib import graphql
-from lib import convert_to_rich_table
+from TCGA.lib import graphql
+from TCGA.lib import convert_to_rich_table
+from TCGA.biospecimen import biospecimen_parsed
 import pandas as pd
 from pprint import pprint
 from rich import print as rpprint
 
+
+PROGRAM_SEARCH = "TCGA"
 
 # https://portal.gdc.cancer.gov/exploration?filters=%7B%22op%22%3A%22and%22%2C%22content%22%3A%5B%7B%22content%22%3A%7B%22field%22%3A%22cases.diagnoses.tissue_or_organ_of_origin%22%2C%22value%22%3A%5B%22axillary%20tail%20of%20breast%22%2C%22breast%2C%20nos%22%2C%22central%20portion%20of%20breast%22%2C%22lower-inner%20quadrant%20of%20breast%22%2C%22lower-outer%20quadrant%20of%20breast%22%2C%22nipple%22%2C%22overlapping%20lesion%20of%20breast%22%2C%22upper-inner%20quadrant%20of%20breast%22%2C%22upper-outer%20quadrant%20of%20breast%22%5D%7D%2C%22op%22%3A%22in%22%7D%2C%7B%22content%22%3A%7B%22field%22%3A%22cases.primary_site%22%2C%22value%22%3A%5B%22breast%22%5D%7D%2C%22op%22%3A%22in%22%7D%2C%7B%22op%22%3A%22in%22%2C%22content%22%3A%7B%22field%22%3A%22cases.project.program.name%22%2C%22value%22%3A%5B%22TCGA%22%5D%7D%7D%5D%7D
 def breast():
@@ -110,12 +113,12 @@ query ExploreCasesTable_relayQuery(
                         "op": "in",
                         "content": {
                             "field": "cases.project.program.name",
-                            "value": ["TCGA"],
+                            "value": [PROGRAM_SEARCH],
                         },
                     },
                 ],
             },
-            "cases_size": 20,
+            "cases_size": 2000,
             "cases_offset": 0,
             "cases_score": "gene.gene_id",
             "cases_sort": [],
@@ -129,14 +132,6 @@ def breast_rows():
         "edges"
     ]:
         example = {
-            "case_id": "f45aa0b2-f3de-4db5-9730-e5c6c4e2ed3a",
-            "demographic": {
-                "days_to_death": None,
-                "ethnicity": "hispanic or latino",
-                "gender": "female",
-                "race": "white",
-                "vital_status": "Alive",
-            },
             "diagnoses": {
                 "hits": {
                     "edges": [
@@ -151,15 +146,7 @@ def breast_rows():
                 }
             },
             "disease_type": "Ductal and Lobular Neoplasms",
-            "id": "RUNhc2U6ZjQ1YWEwYjItZjNkZS00ZGI1LTk3MzAtZTVjNmM0ZTJlZDNhIzg5YzhkNjBjODI5NTBlMzE1ZmMxMTIyZjViZDkyYWFlIw==",
             "primary_site": "Breast",
-            "project": {
-                "id": "UHJvamVjdDpmNDVhYTBiMi1mM2RlLTRkYjUtOTczMC1lNWM2YzRlMmVkM2EjODljOGQ2MGM4Mjk1MGUzMTVmYzExMjJmNWJkOTJhYWUjOl8=",
-                "program": {"name": "TCGA"},
-                "project_id": "TCGA-BRCA",
-            },
-            "score": 432,
-            "submitter_id": "TCGA-EW-A2FV",
             "summary": {
                 "data_categories": [
                     {"data_category": "Structural Variation", "file_count": 4.0},
@@ -191,19 +178,24 @@ def breast_rows():
                 "file_count": 65.0,
             },
         }
-        yield x["node"]
-    target = {
-        "case": None,
-        "case_uuid": None,
-        "slide": None,
-        "number": None,
-        "project": None,
-        "project_name": None,
-        "location": None,
-        "date": None,
-        "file_uuid": None,
-        "program": None,
-    }
+        target = {
+            "case": x["node"]["submitter_id"],
+            "case_uuid": x["node"]["case_id"],
+            "slide": None,
+            "number": None,
+            "project": x["node"]["project"]["project_id"],
+            "project_name": None,
+            "location": None,
+            "date": None,
+            "file_uuid": None,
+            "program": PROGRAM_SEARCH,
+            # Extras for filtering
+            "disease_type": x["node"]["disease_type"],
+        }
+        for es in x["node"]["summary"]["experimental_strategies"]:
+            if es["experimental_strategy"] == "Tissue Slide" and \
+                    es["file_count"] > 0:
+                yield target["case_uuid"]
 
 
 if __name__ == "__main__":
