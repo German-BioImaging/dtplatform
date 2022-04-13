@@ -1,0 +1,19 @@
+#title: Cell types related to breast cancer via markers
+
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+
+SELECT ?cellTypeLabel ?geneLabel ?diseaseLabel
+WHERE {
+    VALUES ?disease { wd:Q128581} # breast cancer
+    ?disease wdt:P2293 ?diseaseGene ;  # Breast cancer --> genetic association --> gene
+        rdfs:label ?diseaseLabel .
+    ?cellType wdt:P8872 ?diseaseGene ; # Cell type --> has marker --> gene
+        rdfs:label ?cellTypeLabel .
+
+    ?diseaseGene rdfs:label ?geneLabel .
+
+    FILTER (LANG(?cellTypeLabel) = "en")
+    FILTER (LANG(?diseaseLabel) = "en")
+    FILTER (LANG(?geneLabel) = "en")
+}

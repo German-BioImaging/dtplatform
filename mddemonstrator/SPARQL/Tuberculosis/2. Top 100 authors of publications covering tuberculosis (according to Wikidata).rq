@@ -1,0 +1,12 @@
+#title: Top 100 authors of publications covering tuberculosis (according to Wikidata)
+#defaultView:BubbleChart
+SELECT ?author ?authorLabel (COUNT(?author) AS ?counts) WHERE {
+   ?item wdt:P31 wd:Q13442814 ;
+         wdt:P50 ?author ;
+         wdt:P921 wd:Q12204 .
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+}
+GROUP BY ?author ?authorLabel
+ORDER BY desc(?counts)
+LIMIT 100
+
