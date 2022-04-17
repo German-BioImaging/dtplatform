@@ -1,0 +1,10 @@
+channels:
+  - defaults
+dependencies:
+  - ipython
+  - pandas
+  - requests
+  - pip
+  - pip:
+    - sfaira
+    - anndata2ri

@@ -29,22 +29,43 @@ from pprint import pprint
   'submitter_id': 'TCGA-AN-A046',
 """
 
+def load_cases():
+    if len(sys.argv) == 1:
+        r = graphql(breast())
+        data = [x["node"] for x in r.json()["data"]["exploreCasesTableViewer"]["explore"]["cases"]["hits"]["edges"]]
+        for node in data:
+            case = node["submitter_id"]
+            uuid = node["case_id"]
+            yield (case, uuid)
+    else:
+        for arg in sys.argv[1:]:
+            yield (arg, arg)  # Duplicate uuid for case name
+
 if __name__ == "__main__":
+    import sys
     from collections import defaultdict
     genes = defaultdict(list)
-    r = graphql(breast())
-    data = [x["node"] for x in r.json()["data"]["exploreCasesTableViewer"]["explore"]["cases"]["hits"]["edges"]]
-    for node in data:
-        case = node["submitter_id"]
-        uuid = node["case_id"]
+
+    for case, uuid in load_cases():
         r = graphql(ssm(uuid))
         # TODO: move this loop to a helper
+        print(f"- case: '{uuid}'")
+        case_genes = list()
         for outer in r.json()["data"]["viewer"]["explore"]["ssms"]["hits"]["edges"]:
             for inner in outer["node"]["consequence"]["hits"]["edges"]:
                 symbol = inner["node"]["transcript"]["gene"]["symbol"]
                 impact = inner["node"]["transcript"]["annotation"]["vep_impact"]
                 if impact not in ("LOW", "MODERATE"):
                     genes[f"{symbol}/{impact}"].append(case)
+                    case_genes.append((symbol, impact))
+                    print
+        if not case_genes:
+            print(f"  genes: []")
+        else:
+            print(f"  genes:")
+            for symbol, impact in case_genes:
+                print(f"   - symbol: {symbol}")
+                print(f"     impact: {impact}")
 
     for k, v in sorted(genes.items()):
         print(f"{k} ({len(v)}) = {' '.join(v)}")
