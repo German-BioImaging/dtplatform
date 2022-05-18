@@ -30,3 +30,5 @@
 * metaphacts
 * cedar workbench
 * anzo platform
+* ontotext
+* topquadrant
