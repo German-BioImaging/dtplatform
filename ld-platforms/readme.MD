@@ -26,4 +26,9 @@
 ### Other
 
 * https://www.stardog.com/ (possibly see https://github.com/stardog-union/helm-charts)
-* ...
+* https://ontola.io/
+* metaphacts
+* cedar workbench
+* anzo platform
+* ontotext
+* topquadrant
