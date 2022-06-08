@@ -1,0 +1,150 @@
+# Author: Andra Waagemeester
+# Based on: https://docs.google.com/spreadsheets/d/1Ivb14Pac_ADLaAuysPvulYtGAAbzE8ffludVfMLt6HM/edit#gid=397194
+# This model is fully based on the provided draft
+# The definition need to be provided by the Delta Tissue team and will not be interoperable with other linked data
+# sources.
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX patient: <http://patient.delta_tissue.org/subject>
+PREFIX ancestry: <http://vocabulary.delta_tissue.org/ancestry/>
+PREFIX ethnicity: <http://vocabulary.delta_tissue.org/ethnicity/>
+PREFIX bodypart: <http://vocabulary.delta_tissue.org/bodypart/>
+PREFIX diagnosis: <http://vocabulary.delta_tissue.org/diagnosis/>
+PREFIX specimen: <http://vocabulary.delta_tissue.org/specimen/>
+PREFIX measurement: <http://vocabulary.delta_tissue.org/measurement/>
+PREFIX treatment: <http://vocabulary.delta_tissue.org/treatment/>
+PREFIX imaging: <http://vocabulary.delta_tissue.org/imaging/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+patient:Subject {
+   patient:dob						xsd:DateTime;
+   patient:measurement              @patient:Measurement* ;
+   patient:ancestry   				[ ancestry:European
+     								  ancestry:African
+									  ancestry:Asian
+									  ancestry:Middle_Eastern
+									  ancestry:Indigenous
+									  ancestry:Pacific_Islander
+									  ancestry:East_Asian
+                                    ]?;
+   patient:Ethnicity				[
+    								  ethnicity:Hispanic
+                             		  ethnicity:Carribbean
+  									]?;
+  patient:archived_specimen 		@patient:Archived_Specimen* ;
+  patient:treatment 		 		@patient:Treatment* ;
+  patient:imaging 			 		@patient:Imaging* ;
+  patient:prior_history_of_cancer	@patient:Prior_history_of_cancer* ;
+  patient:genetic_Test				@patient:Genetic_Test* ;
+  patient:family_history			@patient:Family_history* ;
+  patient:metabolic				    @patient:Metabolic ;
+  patient:parity					@patient:Parity ;
+  patient:hypoxia_time				@patient:Hypoxia_time ;
+  patient:formalin_fixation_time 	@patient:Formalin_fixation_time ;
+
+}
+
+patient:Archived_Specimen {
+  patient:diagnosis				    @patient:Diagnosis ;
+  patient:specimen					@patient:Specimen ;
+}
+
+patient:Diagnosis {
+  patient:locality					[
+    									bodypart:Left_breast
+    									bodypart:Right_breast
+  									];
+  rdf:type							[
+     									diagnosis:Invasive_cancer
+    									diagnosis:Atypia
+    									diagnosis:In_situ_cancer
+    									diagnosis:Prophylactic_mastectomy_for_high_risk
+								    ];
+}
+
+patient:Specimen {
+  	specimen:collection_method		[
+  										specimen:Biopsy
+  										specimen:Mastectomy
+];
+    patient:locality					[
+    									bodypart:Left_breast
+    									bodypart:Right_breast
+  									];
+  	patient:measurement                 @patient:Measurement ;
+  	patient:HER2                    [
+  	                                    measurement:FISH
+  	                                    measurement:IHC
+  	                                ] ;
+   patient:stage                    [
+                                        measurement:0
+                                        measurement:1
+                                        measurement:2
+                                        measurement:3
+                                        measurement:4
+                                    ]
+}
+
+patient:Measurement {
+   rdf:type                         [
+                                        measurement:ER
+                                        measurement:PR
+                                        measurement:Ki67
+                                        measurement:BMI
+                                        measurement:HgbA1c
+                                        measurement:gravida
+                                        measurement:para
+                                        measurement:year_last_delivery
+                                        measurement:hypoxia_time
+                                        measurement:Formaline_fixation_time
+                                    ] ;
+   rdf:value                        rdfs:literal ;
+   rdfs:comment                     xsd:string ;
+}
+
+patient:Treatment {
+   rdf:type                         [
+                                        treatment:adjuvant
+                                        treatment:neoadjuvant
+                                    ] ;
+   patient:metastasis               @diagnosis:Metastasis ;
+
+}
+
+diagnosis:Metastasis {
+    diagnosis:date_of_diagnosis     xsd:dateTime ;
+    patient:locality                [
+                                        bodypart:Bone
+                                        bodypart:Lung
+                                        bodypart:Liver
+                                    ] ;
+}
+
+patient:Imaging {
+    diagnosis:date_of_imaging   xsd:dateTime ;
+    imaging:modality            [
+                                    imaging:Ultrasound
+                                    imaging:MRI
+                                    imaging:PACT
+    ]
+
+}
+
+patient:Prior_history_of_cancer {
+     patient:prior_cancer_history   @patient:cancer_episode ;
+}
+
+patient:cancer_episode {
+    diagnosis:date                  xsd:dateTime ;
+    diagnosis:diagnosis             [
+                                        diagnosis:Breast_cancer
+                                        diagnosis:Ovarian_cancer
+                                        diagnosis:other_cancer
+                                    ];
+    rdfs:comment                     xsd:string ;
+}
+
