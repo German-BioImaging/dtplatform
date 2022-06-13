@@ -1,0 +1,17 @@
+PREFIX patient: <http://patient.deltatissue.org/subject>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX schema: <http://schema.org/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+# Author: Andra Waagemeester
+# Based on: https://docs.google.com/spreadsheets/d/1Ivb14Pac_ADLaAuysPvulYtGAAbzE8ffludVfMLt6HM/edit#gid=397194
+# This model is fully based on SIO
+
+patient:id {
+    rdf:type  [schema:Patient];
+    schema:birthDate    xsd:dateTime ;   # Age not found in schema.org
+    ## Etnicity or Ancestry is not represented in schema.org
+               @patient:archived_specimen ;
+}
+
+patient:archived_specimen

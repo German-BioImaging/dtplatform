@@ -1,9 +1,9 @@
 PREFIX ncit: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX patient: <http://patient.delta_tissue.org/subject>
-PREFIX specimen: <http://patient.delta_tissue.org/specimen>
-PREFIX treatment: <http://patient.delta_tissue.org/treatment>
+PREFIX patient: <http://patient.deltatissue.org/subject>
+PREFIX specimen: <http://patient.deltatissue.org/specimen>
+PREFIX treatment: <http://patient.deltatissue.org/treatment>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX dce: <http://purl.org/dc/elements/1.1/>
@@ -12,7 +12,7 @@ PREFIX dce: <http://purl.org/dc/elements/1.1/>
 # This model is fully based on OBO
 
 patient:id {
-    rdf:type [obo:NCIT:C16960] ; # Patient
+    rdf:type [obo:NCIT_C16960] ; # Patient
     patient:patient_property @patient:Age ; # patient:property needs to be defined by dt
     patient:patient_property @patient:Ancestry ;
     patient:patient_property @patient:Ethnicity ;
@@ -160,8 +160,8 @@ patient:archived_specimen {
     rdf:type [obo:NCIT_C19157] ;
     obo:RO_0040035 @patient:diagnosis ; # disease relationship
     obo:HSO_0000288 @specimen:collection_method ; # has sample collection protocol
-    obo:TXPO_0001873 @specimen:measurement ; # has finding
-    obo:NCIT_R165 @specimen:imaging ; # Procedure_Has_Imaged_Anatomy
+    obo:TXPO_0001873 @specimen:Measurement ; # has finding
+    obo:NCIT_R165 @specimen:Imaging ; # Procedure_Has_Imaged_Anatomy
 }
 
 patient:diagnosis {
@@ -364,10 +364,9 @@ patient:Treatment {
     obo:NCIT_P302 @patient:archived_specimen ; # Accepted_Therapeutic_Use_For
     rdf:type [obo:NCIT_C25409] ;
     rdfs:range @treatment:Neoadjuvant or @treatment:Adjuvant or @treatment:Metastasis ;
-
 }
 
-treatment:Neo_adjuvant {
+treatment:Neoadjuvant {
    rdfs:comment    xsd:string ;
    rdfs:range [
                 obo:NCIT_C15632  #chemotherapy
