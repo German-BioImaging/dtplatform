@@ -35,7 +35,7 @@ patient:Age {
 }
 
 patient:Ancestry {
-   rdf:type [obo:NCIT_C176763] // "property type (rdf:type)";
+   rdf:type [obo:NCIT_C176763] // ui:label "property type (rdf:type)";
    rdf:value [
                 "Asian (obo:NCIT_C41260)"
                 "Black Central American (obo:NCIT_C128991)"
@@ -73,7 +73,7 @@ patient:Ancestry {
 }
 
 patient:Ethnicity {
-   rdf:type    [obo:NCIT_C16564 ] "property type (rdf:type)" ;
+   rdf:type    [obo:NCIT_C16564 ] // ui:label "property type (rdf:type)" ;
    rdf:value   [
                 "Adja (obo:SCDO_1000116)"
                 "Bariba (obo:SCDO_1000117)"
