@@ -163,7 +163,7 @@ patient:Ethnicity {
                 "Sephardic Jew (obo:NCIT_C103283)"
                 "Ashkenazi Jew (obo:NCIT_C17950)"
                 "Not Hispanic or Latino (obo:NCIT_C41222)"
-  ] // ui:label "Has ethnicity (rdf:value)"
+  ] // ui:label "Has ethnicity (rdf:value)" // shexmi:comment """Subclasses of: A social group characterized by a distinctive social and cultural tradition that is maintained from generation to generation. Members share a common history and origin and a sense of identification with the group. They have similar and distinctive features in their lifestyle habits and shared experiences. They often have a common genetic heritage which may be reflected in their experience of health and disease. (obo:SCDO_0001298)""";
 }
 
 patient:archived_specimen {
