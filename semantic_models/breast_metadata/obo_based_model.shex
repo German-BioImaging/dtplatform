@@ -12,6 +12,7 @@ PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX sio: <http://semanticscience.org/resource/>
 PREFIX ui: <http://www.w3.org/ns/ui#>
+PREFIX shexmi: <http://www.w3.org/ns/shex-xmi#>
 # Author: Andra Waagemeester
 # Based on: https://docs.google.com/spreadsheets/d/1Ivb14Pac_ADLaAuysPvulYtGAAbzE8ffludVfMLt6HM/edit#gid=397194
 # This model is fully based on OBO
