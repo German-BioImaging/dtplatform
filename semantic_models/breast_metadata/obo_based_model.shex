@@ -1,9 +1,9 @@
 PREFIX ncit: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX patient: <http://patient.deltatissue.org/subject>
-PREFIX specimen: <http://patient.deltatissue.org/specimen>
-PREFIX treatment: <http://patient.deltatissue.org/treatment>
+PREFIX subject: <http://subject.deltatissue.org/subject>
+PREFIX specimen: <http://subject.deltatissue.org/specimen>
+PREFIX treatment: <http://subject.deltatissue.org/treatment>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX dce: <http://purl.org/dc/elements/1.1/>
@@ -13,29 +13,30 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX sio: <http://semanticscience.org/resource/>
 PREFIX ui: <http://www.w3.org/ns/ui#>
 PREFIX shexmi: <http://www.w3.org/ns/shex-xmi#>
+
 # Author: Andra Waagemeester
 # Based on: https://docs.google.com/spreadsheets/d/1Ivb14Pac_ADLaAuysPvulYtGAAbzE8ffludVfMLt6HM/edit#gid=397194
 # This model is fully based on OBO
 
-patient:id {
+subject:id {
     dct:identifier xsd:int // ui:label "Subject identifier" ;
-    rdf:type [obo:NCIT_C16960] ; # Patient
-    patient:patient_properties @patient:properties // ui:label "Patient properties"; # patient:property needs to be defined by dt
-    obo:OBI_0100051 @patient:archived_specimen // ui:label "archived specimen" ;
-}
+    rdf:type [obo:NCIT_C16960] ; # subject
+    subject:subject_properties @subject:properties // ui:label "subject properties"; # subject:property needs to be defined by dt
+    obo:OBI_0100051 @subject:archived_specimen // ui:label "archived specimen" ;
+} // shexmi:comment """A living person who is observed, analyzed, examined, investigated, experimented upon, and/or treated in the course of a clinical study. This includes studies where an investigator obtains identifiable private information or data through the intervention or interaction with the individual. [ NCI ] (obo:NCIT_C70668)"""
 
-patient:properties {
+subject:properties {
    foaf:age          xsd:int // ui:label "Age (foaf:age)";
-   sio:SIO_000223    @patient:Ancestry // ui:label "has property ( sio:SIO_000223)" ;
-   sio:SIO_000223    @patient:Ethnicity // ui:label "has property ( sio:SIO_000223)" ;
+   sio:SIO_000223    @subject:Ancestry // ui:label "has property ( sio:SIO_000223)" ;
+   sio:SIO_000223    @subject:Ethnicity // ui:label "has property ( sio:SIO_000223)" ;
 }
 
-patient:Age {
+subject:Age {
     rdf:type ["Age (obo:NCIT_C25150)"]  // ui:label "property type (rdf:type)"; # Age
     rdf:value xsd:int // ui:label "has age (rdf:value)";
 }
 
-patient:Ancestry {
+subject:Ancestry {
    rdf:type [obo:NCIT_C176763] // ui:label "property type (rdf:type)";
    rdf:value [
                 "Asian (obo:NCIT_C41260)"
@@ -73,7 +74,7 @@ patient:Ancestry {
                ] // ui:label "Has ancestry (rdf:value)"
 }
 
-patient:Ethnicity {
+subject:Ethnicity {
    rdf:type    [obo:NCIT_C16564 ] // ui:label "property type (rdf:type)" ;
    rdf:value   [
                 "Adja (obo:SCDO_1000116)"
@@ -164,18 +165,18 @@ patient:Ethnicity {
                 "Sephardic Jew (obo:NCIT_C103283)"
                 "Ashkenazi Jew (obo:NCIT_C17950)"
                 "Not Hispanic or Latino (obo:NCIT_C41222)"
-  ] // ui:label "Has ethnicity (rdf:value)" // shexmi:comment """Subclasses of: A social group characterized by a distinctive social and cultural tradition that is maintained from generation to generation. Members share a common history and origin and a sense of identification with the group. They have similar and distinctive features in their lifestyle habits and shared experiences. They often have a common genetic heritage which may be reflected in their experience of health and disease. (obo:SCDO_0001298)""";
-}
+  ] // ui:label "Has ethnicity (rdf:value)" x;
+} // shexmi:comment """Subclasses of: A social group characterized by a distinctive social and cultural tradition that is maintained from generation to generation. Members share a common history and origin and a sense of identification with the group. They have similar and distinctive features in their lifestyle habits and shared experiences. They often have a common genetic heritage which may be reflected in their experience of health and disease. (obo:SCDO_0001298)""" ;
 
-patient:archived_specimen {
+subject:archived_specimen {
     rdf:type [obo:NCIT_C19157] // ui:label "property type (rdf:type)" ;
-    obo:RO_0040035 @patient:diagnosis // ui:label "disease relationship (obo:RO_0040035)";
+    obo:RO_0040035 @subject:diagnosis // ui:label "disease relationship (obo:RO_0040035)";
     obo:HSO_0000288 @specimen:collection_method // ui:label "has sample collection protocol (obo:HSO_0000288)" ;
     obo:TXPO_0001873 @specimen:Measurement+ // ui:label "has finding (obo:TXPO_0001873)" ;
     obo:NCIT_R165 @specimen:Imaging // ui:label "Procedure_Has_Imaged_Anatomy (obo:NCIT_R165)" ; #
 }
 
-patient:diagnosis {
+subject:diagnosis {
    rdf:type     [obo:DOID_4] // ui:label "property type (rdf:type)";
    rdf:value    [   "Stage 0 Squamous Cell Carcinoma (obo:NCIT_C27093)"
                     "Stage 0 AIDS-Related Anal Canal Cancer AJCC v6 and v7 (obo:NCIT_C27282)"
@@ -369,9 +370,9 @@ specimen:Measurement {
     rdf:value xsd:string ;
 }
 
-patient:Treatment {
+subject:Treatment {
     rdfs:comment     rdf:langString ;
-    obo:NCIT_P302 @patient:archived_specimen ; # Accepted_Therapeutic_Use_For
+    obo:NCIT_P302 @subject:archived_specimen ; # Accepted_Therapeutic_Use_For
     rdf:type [obo:NCIT_C25409] ;
     rdfs:range @treatment:Neoadjuvant or @treatment:Adjuvant or @treatment:Metastasis ;
 }
