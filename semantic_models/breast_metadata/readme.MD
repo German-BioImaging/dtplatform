@@ -1,21 +1,6 @@
 ---
 title: First draft schemas
-title: "ΔTissue Demonstrator (v0.0.1)"
 ---
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Book",
-  "inLanguage": "en-US",
-  "name": "ΔTissue Demonstrator (v0.0.1)",
-  "publisher": {
-    "@type": "Organization",
-    "name": "GitHub"
-  },
-  "copyrightYear": "2022",
-  "discussionUrl": "https://github.com/German-BioImaging/dtqueries/issues"
-}
-</script>
 
 © 2022 Andra Waagmeester and Josh Moore.
 
@@ -29,7 +14,10 @@ Linked data removes ambiguity in data by using universal identifiers and the uni
 
 Creating linked data can be described as a process where the identifiers needed are identified as well as the schema that describe the linked-data patterns one can expect. Identifiers can be obtained by searching [controlled vocabularies](https://en.wikipedia.org/wiki/Controlled_vocabulary) and [ontologies](https://en.wikipedia.org/wiki/Ontology_(information_science))
 
-This document proposes a few schemas for the [breast metadata set](https://docs.google.com/spreadsheets/d/1Ivb14Pac_ADLaAuysPvulYtGAAbzE8ffludVfMLt6HM/edit#gid=397194)
+This document proposes a few schemas for the [breast metadata set](https://docs.google.com/spreadsheets/d/1Ivb14Pac_ADLaAuysPvulYtGAAbzE8ffludVfMLt6HM/edit#gid=397194):
+
+* [Native schema](#native-schema): is a "clean-room" implementation but carries the burden of maintaining all terms
+* [OBO schema](#schema-using-open-biomedical-ontologies-obofoundry): a more complete schema makes use of otologies like NCIt from OLS
 
 ### Native schema
 In this schema we have not consulted external ontologies. This does hamper interoperability, i.e. the data is not easily linked to or from external linked data resources. Unless the data comes from an authoritative source in the domain. 
