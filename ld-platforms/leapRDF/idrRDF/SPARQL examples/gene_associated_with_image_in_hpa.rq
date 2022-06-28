@@ -2,9 +2,8 @@ PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 PREFIX hpa: <http://www.proteinatlas.org/search/>
 
-## Patholgoy associated with images part of data set HPA040725
-SELECT DISTINCT ?pathology WHERE {
+## genes associated with images part of data set HPA040725
+SELECT DISTINCT ?gene WHERE {
   ?image dcterms:isPartOf hpa:HPA040725 ;
-         wdt:P180 [ wdt:P1050 ?pathology ;]
+         wdt:P180 [ wdt:P353 ?gene ;]
 }
-

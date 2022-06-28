@@ -77,7 +77,7 @@ for index, row in image_annotations.iterrows():
             continue
 
         if str(row[4]) in wikidata.keys():
-            omeroRDF.add((thing, WDP.P1050, wikidata[row[4]]))  # TODO incorrect Wikidata property
+            omeroRDF.add((thing, WDP.P1050, wikidata[row[4]]))  # P1050 = medical condition in Wikidata
         else:
             query = f"""
 
@@ -104,7 +104,7 @@ for index, row in image_annotations.iterrows():
             omeroRDF.add((thing, WDP.P827, wikidata[str(row[4])]))
 
         if str(row[3]) == "Organism Part Identifier":
-            omeroRDF.add((thing, WDP.P361, URIRef("http://purl.bioontology.org/ontology/SNMI/" + str(row[4]))))
+            omeroRDF.add((thing, WDP.P361, URIRef("http://purl.bioontology.org/ontology/SNMI/" + str(row[4])))) # P361 part of
 
         if str(row[3]) == "Organism Part":
             print(row[4])
