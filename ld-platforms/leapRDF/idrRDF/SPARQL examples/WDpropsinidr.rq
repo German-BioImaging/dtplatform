@@ -1,0 +1,14 @@
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT * WHERE {
+  ?sub wdt:P180 [
+       ?p ?o ;
+  ];
+     SERVICE <https://query.wikidata.org/sparql> {
+      ?prop wikibase:directClaim ?p ;
+            rdfs:label ?propLabel .
+    FILTER (lang(?propLabel)="en")
+  }
+}
+
