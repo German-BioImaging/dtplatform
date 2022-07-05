@@ -6,4 +6,5 @@ PREFIX hpa: <http://www.proteinatlas.org/search/>
 SELECT DISTINCT ?gene WHERE {
   ?image dcterms:isPartOf hpa:HPA040725 ;
          wdt:P180 [ wdt:P353 ?gene ;]
+          wdt:P180 [ wdt:P1050 ?disease ;]
 }

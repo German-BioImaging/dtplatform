@@ -109,7 +109,8 @@ for index, row in image_annotations.iterrows():
         if str(row[3]) == "Organism Part":
             print(row[4])
             if str(row[4]) in wikidata.keys():
-                omeroRDF.add((thing, WDP.P361, wikidata[row[4]]))
+                omeroRDF.add((thing, WDP.P361, wikidata[row[4]])) # P361 is part of
+                
             else:
                 query = f"""
 
