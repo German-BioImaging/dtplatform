@@ -19,10 +19,10 @@ PREFIX shexmi: <http://www.w3.org/ns/shex-xmi#>
 # This model is fully based on OBO
 
 subject:id {
-    dct:identifier xsd:int // ui:label "Subject identifier" ;
-    rdf:type [obo:NCIT_C16960] // shexmi:comment """A person who receives medical attention, care, or treatment, or who is registered with medical professional or institution with the purpose to receive medical care when necessary."""; # subject
-    subject:subject_properties @subject:properties // ui:label "subject properties"; # subject:property needs to be defined by dt
-    obo:OBI_0100051 @subject:archived_specimen // ui:label "archived specimen" ;
+    dct:identifier xsd:int // shexmi:comment "Subject identifier that contains only integers (xsd:int)" ;
+    rdf:type [obo:NCIT_C16960] // shexmi:comment """(NCIT_C16960) A person who receives medical attention, care, or treatment, or who is registered with medical professional or institution with the purpose to receive medical care when necessary."""; # subject
+    subject:subject_properties @subject:properties // shexmi:comment  "subject properties"; # subject:property needs to be defined by dt
+    obo:OBI_0100051 @subject:archived_specimen // shexmi:comment  "(obo:OBI_0100051) A material entity that has the specimen role." ;
 } // shexmi:comment """A living person who is observed, analyzed, examined, investigated, experimented upon, and/or treated in the course of a clinical study. This includes studies where an investigator obtains identifiable private information or data through the intervention or interaction with the individual. [ NCI ] (obo:NCIT_C70668)"""
 
 subject:properties {
