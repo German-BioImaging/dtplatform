@@ -26,18 +26,18 @@ subject:id {
 } // shexmi:comment """A living person who is observed, analyzed, examined, investigated, experimented upon, and/or treated in the course of a clinical study. This includes studies where an investigator obtains identifiable private information or data through the intervention or interaction with the individual. [ NCI ] (obo:NCIT_C70668)"""
 
 subject:properties {
-   foaf:age          xsd:int // ui:label "Age (foaf:age)";
+   foaf:age          xsd:int // ui:label "foaf:age - The age in years of some agent.";
    sio:SIO_000223    @subject:Ancestry // shexmi:comment "has property ( sio:SIO_000223)" ;
    sio:SIO_000223    @subject:Ethnicity // shexmi:comment "has property ( sio:SIO_000223)" ;
 }
 
 subject:Age {
-    rdf:type ["Age (obo:NCIT_C25150)"]  // ui:label "property type (rdf:type)"; # Age
-    rdf:value xsd:int // ui:label "has age (rdf:value)";
+    rdf:type ["Age (obo:NCIT_C25150)"]  // ui:label "property type (rdf:type)" // shexmi:comment "How long something has existed; elapsed time since birth. (obo:NCIT_C25150) "; # Age
+    rdf:value xsd:int // ui:label "has age (rdf:value)" // shexmi:comment "Age expressed in years since birth";
 }
 
 subject:Ancestry {
-   rdf:type [obo:NCIT_C176763] // ui:label "property type (rdf:type)";
+   rdf:type [obo:NCIT_C176763] // ui:label "property type (rdf:type)" // shexmi:comment "A person's descent or lineage, from a person or from a population. (obo:NCIT_C176763)";
    rdf:value [
                 "Asian (obo:NCIT_C41260)"
                 "Black Central American (obo:NCIT_C128991)"
