@@ -19,7 +19,7 @@ PREFIX shexmi: <http://www.w3.org/ns/shex-xmi#>
 # This model is fully based on OBO
 
 subject:id {
-    dct:identifier xsd:int // ui:label "Subject identifier" ;
+    dct:identifier xsd:string // ui:label "Subject identifier" ;
     rdf:type [obo:NCIT_C16960] ; # subject
     subject:subject_properties @subject:properties // ui:label "subject properties"; # subject:property needs to be defined by dt
     obo:OBI_0100051 @subject:archived_specimen // ui:label "archived specimen" ;
