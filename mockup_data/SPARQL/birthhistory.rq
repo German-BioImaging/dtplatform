@@ -1,0 +1,30 @@
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?subject ?identifier ?gravidaValue ?parityValue ?lastdelivery
+WHERE {
+  ?subject rdf:type obo:NCIT_C16960 ;
+           dcterms:identifier ?identifier ;
+           obo:RO_0000053 ?subject_properties .
+
+  ?subject_properties obo:BFO_0000185 ?birthhistory . # has history
+  ?birthhistory rdf:type obo:OBI_0002393 ; # birth history
+                obo:TXPO_0001873 ?gravida . #has finding
+  ?birthhistory rdf:type obo:OBI_0002393 ; # birth history
+                obo:TXPO_0001873 ?parity . #has finding
+
+  ?subject_properties schema:children ?offSpring .
+  ?lastChild obo:STATO_0000382 obo:NCIT_C25551 ; # Last
+             schema:birthDate ?lastdelivery ;
+             foaf:member ?offSpring . # This needs to be reversed it is the offspring which has member ?lastChild
+
+
+  ?gravida rdf:type obo:NCIT_C73435 ; # NCIT_C73435 - Gravida
+           rdf:value ?gravidaValue .
+
+  ?parity rdf:type obo:NCIT_C16955 ;
+          rdf:value ?parityValue .
+}
