@@ -1,3 +1,6 @@
 [submodule "dtfuseki"]
 	path = dtfuseki
 	url = ./dtfuseki
+[submodule "dtbook"]
+	path = dtbook
+	url = ./dtbook

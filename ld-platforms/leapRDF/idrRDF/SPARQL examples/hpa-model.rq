@@ -1,0 +1,13 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT distinct ?sub ?gene ?condition ?age ?sex
+WHERE {
+  ?sub a <http://www.wikidata.org/entity/Q478798>.
+  ?sub
+    <http://www.wikidata.org/prop/direct/P180>
+      [ <http://www.wikidata.org/prop/direct/P353> ?gene ],
+      [ <http://www.wikidata.org/prop/direct/P1050> ?condition ],
+      [ <http://www.wikidata.org/prop/direct/P3629> ?age ],
+      [ <http://www.wikidata.org/prop/direct/P21> ?sex ].
+} limit 100

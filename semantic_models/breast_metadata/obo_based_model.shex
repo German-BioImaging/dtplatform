@@ -19,9 +19,9 @@ PREFIX shexmi: <http://www.w3.org/ns/shex-xmi#>
 # This model is fully based on OBO
 
 subject:id {
-    dct:identifier xsd:int // ui:label "Subject identifier" ;
+    dct:identifier xsd:string // ui:label "Subject identifier" ;
     rdf:type [obo:NCIT_C16960] ; # subject
-    subject:subject_properties @subject:properties // ui:label "subject properties"; # subject:property needs to be defined by dt
+    obo:RO_0000053 @subject:properties // ui:label "subject characteristics"; 
     obo:OBI_0100051 @subject:archived_specimen // ui:label "archived specimen" ;
 } // shexmi:comment """A living person who is observed, analyzed, examined, investigated, experimented upon, and/or treated in the course of a clinical study. This includes studies where an investigator obtains identifiable private information or data through the intervention or interaction with the individual. [ NCI ] (obo:NCIT_C70668)"""
 
