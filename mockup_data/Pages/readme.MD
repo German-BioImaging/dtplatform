@@ -1,0 +1,1 @@
+This folder contains the serializer for mockup data into RDF. To data file is not stored in git and needs to be downloade before the script runs
