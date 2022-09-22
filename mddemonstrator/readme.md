@@ -3,6 +3,7 @@ Leap D1 Demonstrator
 ====================
 
 # Tuberculosis
+
 ## Translations of the Disease Ontology term DOID:399 (Tuberculosis)
   
 ```sparql
