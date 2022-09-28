@@ -22,10 +22,21 @@ out.json: out.tsv gbm.yaml
 out.ttl: out.tsv gbm.yaml
 	linkml-convert -f tsv -t ttl -s gbm.yaml -C Root -S subjects out.tsv > out.ttl
 
+#
+# Schema level tools
+#
+
 lint:
 	linkml-lint gbm.yaml
 
+schema.png: gbm.yaml
+	gen-graphviz -o schema -f png gbm.yaml
+
+#
+# Misc
+#
+
 clean:
-	rm -f convert2rdf.py test.tsv out.tsv out.ttl out.json
+	rm -f convert2rdf.py test.tsv out.tsv out.ttl out.json schema.png
 
 .PHONY: lint test
