@@ -114,8 +114,7 @@ classes:
         range: integer
       birth_date:
         slot_uri: schema:birthDate
-# FIXME: parsing in preprocessor?
-#        range: date
+        range: date
       gender:
         slot_uri: schema:gender
         range: GenderEnum
