@@ -1,6 +1,11 @@
 JUPYTER=conda run -n jbook
 SHEET=
 
+################################################
+test: out.json
+	cat out.json
+################################################
+
 
 convert2rdf.py: convert2rdf.ipynb
 	$(JUPYTER) jupyter nbconvert --to python convert2rdf.ipynb convert2rdf.py
@@ -23,4 +28,4 @@ lint:
 clean:
 	rm -f convert2rdf.py test.tsv out.tsv out.ttl out.json
 
-.PHONY: lint
+.PHONY: lint test
