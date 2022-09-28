@@ -14,6 +14,9 @@ out.tsv: test.tsv preprocess.py
 out.json: out.tsv gbm.yaml
 	linkml-convert -f tsv -t json -s gbm.yaml -C Root -S subjects out.tsv > out.json
 
+out.ttl: out.tsv gbm.yaml
+	linkml-convert -f tsv -t ttl -s gbm.yaml -C Root -S subjects out.tsv > out.ttl
+
 lint:
 	linkml-lint gbm.yaml
 

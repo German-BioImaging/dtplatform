@@ -15,4 +15,5 @@ columns = {
 df = pd.read_csv(input, sep="\t")
 df = df.rename(columns = columns)
 df = df.drop(columns=df.columns.symmetric_difference(set(columns.values())))
-df.to_csv(output, sep="\t", index_label="id")
+df.insert(0, "id", ["gbm:"+str(x) for x in df.index])
+df.to_csv(output, sep="\t", index=False)
