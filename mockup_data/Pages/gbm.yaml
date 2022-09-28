@@ -1,0 +1,155 @@
+id: https://wellcomeleap.org/delta-tissue/models/mdr/gbm
+name: gbm
+
+description: |-
+  Delta Tissue MDR model for glioblatoma data.
+
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+imports:
+  - linkml:types
+
+default_curi_maps:
+  - semweb_context
+
+default_range: string
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  clinicalsite: http://clinicalsite.semscape.org/
+  dcat: http://www.w3.org/ns/dcat#
+  dcterms: http://purl.org/dc/terms/
+  efo: http://www.ebi.ac.uk/efo/
+  foaf: http://xmlns.com/foaf/0.1/
+  gbm: https://wellcomeleap.org/delta-tissue/ns/gbm/
+  labsite: http://labsite.semscape.org/
+  node: http://idr.semscape.org/nodeURI/
+  obo: http://purl.obolibrary.org/obo/
+  schema: http://schema.org/
+  sio: http://semanticscience.org/resource/
+  subject: http://subjects.semscape.org/
+  wd: http://www.wikidata.org/entity/
+  wdt: http://www.wikidata.org/prop/direct/
+  xsd: http://www.w3.org/2001/XMLSchema#
+
+default_prefix: gbm
+
+classes:
+
+  Root:
+    description: |-
+      Root container for the primary identifiers in this dataset.
+    tree_root: true
+    slots:
+      - subjects
+      - datasets
+
+
+  Clinic:
+    class_uri: schema:MedicalClinic
+
+  Dataset:
+    class_uri: dcat:dataset
+    description: |-
+      Dataset definition which introduced a particular subject.
+    slots:
+      - subjects
+    attributes:
+      format:
+        slot_uri: dcterms:format
+      issued:
+        slot_uri: dcterms:issued
+      modified:
+        slot_uri: dcterms:modified
+
+# FIXME: next
+# IDH:
+#   class_uri: TBD
+#   description: |-
+#     IDH1/IDH2 Mutation Analysis
+
+  Lab:
+    class_uri: schema:DiagnosticLab
+
+# FIXME: next
+# Pathology:
+#   description: |-
+#     it's complicated ...
+#   class_uri: TBD
+#   attributes:
+#     idh:
+#       slot_uri: obo:MICRO_0001469
+#       range: IDH
+
+  Properties:
+    description: |-
+      Bnode representing the properties associated with a patient.
+    slots:
+      - label
+    attributes:
+      # FIXME: moved age, etc. from here
+      diagnosis:
+        slot_uri: schema:diagnosis
+#       range: Pathology
+
+  Subject:
+    class_uri: obo:NCIT_C16960
+    description: |-
+      Central class of the GBM model.
+    slots:
+      - id
+    attributes:
+      clinic:
+        slot_uri: sio:SIO_00066
+# FIXME range: Clinic
+      lab:
+        slot_uri: sio:SIO_00066
+# FIXME range: Lab
+# FIXME: not in the CSV so perhaps another concept?
+#     dataset:
+#       slot_uri: dcterms:isPartOf
+#       range: Dataset
+      age:
+        slot_uri: foaf:age
+        range: integer
+      birth_date:
+        slot_uri: schema:birthDate
+# FIXME: parsing in preprocessor?
+#        range: date
+      gender:
+        slot_uri: schema:gender
+        range: GenderEnum
+      properties:
+        slot_uri: sio:SIO_000223
+        range: Properties
+        inlined: true
+
+
+slots:
+  datasets:
+    slot_uri: gbm:TBD_contains
+    range: Dataset
+    multivalued: true
+  subjects:
+    slot_uri: gbm:TBD_contains
+    range: Subject
+    inlined: true
+    inlined_as_list: true
+    multivalued: true
+  id:
+    identifier: true
+    slot_uri: dcterms:identifier
+  label:
+    slot_uri: rdfs:label
+
+enums:
+  GenderEnum:
+    permissible_values:
+      M:
+        meaning: obo:NCIT_C16576
+      F:
+        meaning: obo:NCIT_C20197
+      unknown:
+        description: gender is not known
+        todos:
+          - map this to an ontology
