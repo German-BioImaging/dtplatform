@@ -13,7 +13,7 @@ convert2rdf.py: convert2rdf.ipynb
 test.tsv: test.xlsx
 	xlsx2csv -s 1 -d tab test.xlsx test.tsv
 
-out.tsv: test.tsv preprocess.py
+out.tsv: test.tsv preprocess.py clinics.tsv labs.tsv
 	python preprocess.py test.tsv out.tsv
 
 out.json: out.tsv gbm.yaml

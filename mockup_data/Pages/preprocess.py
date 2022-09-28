@@ -13,6 +13,16 @@ columns = {
     "Gender": "gender",
 }
 
+# Lookup tables
+labs = pd.read_csv("labs.tsv", sep="\t")
+labs = {v: k for k, v in dict(labs.to_dict("split")["data"]).items()}
+clinics = pd.read_csv("clinics.tsv", sep="\t")
+clinics = {v: k for k, v in dict(clinics.to_dict("split")["data"]).items()}
+lookups = {
+    "lab": labs,
+    "clinic": clinics,
+}
+
 df = pd.read_csv(input, sep="\t")
 df = df.rename(columns = columns)
 df = df.drop(columns=df.columns.symmetric_difference(set(columns.values())))
@@ -26,6 +36,9 @@ df["birth_date"].loc[~mask] = birth_date[~mask]
 
 # Turn identifiers into CURIEs
 df.insert(0, "id", ["gbm:"+str(x) for x in df.index])
+
+# Replace from lookup tables
+df = df.replace(lookups)
 
 # Output
 df.to_csv(output, sep="\t", index=False)
