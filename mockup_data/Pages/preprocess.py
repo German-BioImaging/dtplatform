@@ -1,3 +1,4 @@
+import json
 import numpy as np
 import pandas as pd
 import sys
@@ -40,5 +41,15 @@ df.insert(0, "id", ["gbm:"+str(x) for x in df.index])
 # Replace from lookup tables
 df = df.replace(lookups)
 
+# Try to inline JSON
+def make_properties(row):
+    return json.dumps({
+        "age": row["age"],
+        "birth_date": str(row["birth_date"]),
+        "gender": row["gender"]})
+
+df["properties"] = df.apply(make_properties, axis=1)
+df = df.drop(columns=["age", "birth_date", "gender"])
+
 # Output
-df.to_csv(output, sep="\t", index=False)
+df.to_csv(output, sep="\t", index=False, escapechar='\\', doublequote=False)

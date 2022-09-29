@@ -17,10 +17,10 @@ out.tsv: test.tsv preprocess.py clinics.tsv labs.tsv
 	python preprocess.py test.tsv out.tsv
 
 out.json: out.tsv gbm.yaml
-	linkml-convert -f tsv -t json -s gbm.yaml -C Root -S subjects out.tsv > out.json
+	linkml-convert -f tsv -t json -s gbm.yaml -C Root -S subjects out.tsv -o out.json
 
 out.ttl: out.tsv gbm.yaml
-	linkml-convert -f tsv -t ttl -s gbm.yaml -C Root -S subjects out.tsv > out.ttl
+	linkml-convert -f tsv -t ttl -s gbm.yaml -C Root -S subjects out.tsv -o out.ttl
 
 #
 # Schema level tools

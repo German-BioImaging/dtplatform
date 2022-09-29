@@ -87,7 +87,15 @@ classes:
     slots:
       - label
     attributes:
-      # FIXME: moved age, etc. from here
+      age:
+        slot_uri: foaf:age
+        range: integer
+      birth_date:
+        slot_uri: schema:birthDate
+        range: date
+      gender:
+        slot_uri: schema:gender
+        range: GenderEnum
       diagnosis:
         slot_uri: schema:diagnosis
 #       range: Pathology
@@ -105,24 +113,15 @@ classes:
       lab:
         slot_uri: sio:SIO_00066
         range: Lab
-# FIXME: not in the CSV so perhaps another concept?
 #     dataset:
 #       slot_uri: dcterms:isPartOf
 #       range: Dataset
-      age:
-        slot_uri: foaf:age
-        range: integer
-      birth_date:
-        slot_uri: schema:birthDate
-        range: date
-      gender:
-        slot_uri: schema:gender
-        range: GenderEnum
       properties:
         slot_uri: sio:SIO_000223
         range: Properties
         inlined: true
-
+        inlined_as_list: false
+        multivalued: false
 
 slots:
   datasets:
