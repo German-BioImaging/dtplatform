@@ -11,9 +11,6 @@ rdf:
 tabular: out.json
 	cat out.json
 
-convert2rdf.py: convert2rdf.ipynb
-	$(JUPYTER) jupyter nbconvert --to python convert2rdf.ipynb convert2rdf.py
-
 test.tsv: test.xlsx
 	xlsx2csv -s 1 -d tab test.xlsx test.tsv
 
@@ -47,7 +44,13 @@ docs: gbm.yaml
 mkdocs: docs
 	mkdocs serve
 
+convert2rdf.py: convert2rdf.ipynb
+	$(JUPYTER) jupyter nbconvert --to python convert2rdf.ipynb convert2rdf.py
+
+graphviz: convert2rdf.py
+	python convert2rdf.py
+
 clean:
 	rm -rf convert2rdf.py test.tsv out.tsv out.ttl out.json out.yaml schema.png docs
 
-.PHONY: lint mkdocs tabular
+.PHONY: graphviz lint mkdocs tabular
