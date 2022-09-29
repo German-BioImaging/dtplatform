@@ -1,11 +1,15 @@
 JUPYTER=conda run -n jbook
 SHEET=
 
-################################################
-test: out.json
-	cat out.json
-################################################
+### RDF WORKFLOW ################################
 
+rdf:
+	linkml-convert -f ttl -t yaml -s gbm.yaml -C Subject test.ttl -o out.yaml
+
+### TABULAR WORKFLOW ############################
+
+tabular: out.json
+	cat out.json
 
 convert2rdf.py: convert2rdf.ipynb
 	$(JUPYTER) jupyter nbconvert --to python convert2rdf.ipynb convert2rdf.py
@@ -37,6 +41,6 @@ schema.png: gbm.yaml
 #
 
 clean:
-	rm -f convert2rdf.py test.tsv out.tsv out.ttl out.json schema.png
+	rm -f convert2rdf.py test.tsv out.tsv out.ttl out.json out.yaml schema.png
 
-.PHONY: lint test
+.PHONY: lint tabular
