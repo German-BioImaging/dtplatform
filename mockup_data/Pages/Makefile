@@ -36,11 +36,18 @@ lint:
 schema.png: gbm.yaml
 	gen-graphviz -o schema -f png gbm.yaml
 
+docs: gbm.yaml
+	gen-markdown --index-file docs/schema.md -d docs gbm.yaml
+
 #
 # Misc
 #
+#
+
+mkdocs: docs
+	mkdocs serve
 
 clean:
-	rm -f convert2rdf.py test.tsv out.tsv out.ttl out.json out.yaml schema.png
+	rm -rf convert2rdf.py test.tsv out.tsv out.ttl out.json out.yaml schema.png docs
 
-.PHONY: lint tabular
+.PHONY: lint mkdocs tabular
