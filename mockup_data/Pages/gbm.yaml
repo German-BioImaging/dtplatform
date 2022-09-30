@@ -1,0 +1,213 @@
+id: https://wellcomeleap.org/delta-tissue/models/mdr/gbm
+name: gbm
+
+description: |-
+  Delta Tissue MDR model for glioblatoma data.
+
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+imports:
+  - linkml:types
+
+default_curi_maps:
+  - semweb_context
+
+default_range: string
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  clinic: http://clinicalsite.semscape.org/
+  dcat: http://www.w3.org/ns/dcat#
+  dcterms: http://purl.org/dc/terms/
+  efo: http://www.ebi.ac.uk/efo/
+  foaf: http://xmlns.com/foaf/0.1/
+  gbm: https://wellcomeleap.org/delta-tissue/ns/gbm/
+  lab: http://labsite.semscape.org/
+  node: http://idr.semscape.org/nodeURI/
+  obo: http://purl.obolibrary.org/obo/
+  # TBD: non-canonical use of https for schema.org
+  schema: https://schema.org/
+  sio: http://semanticscience.org/resource/
+  subject: http://subjects.semscape.org/
+  wd: http://www.wikidata.org/entity/
+  wdt: http://www.wikidata.org/prop/direct/
+  xsd: http://www.w3.org/2001/XMLSchema#
+
+default_prefix: gbm
+
+classes:
+
+  Root:
+    description: |-
+      Root container for the primary identifiers in this dataset.
+    tree_root: true
+    slots:
+      - subjects
+      - datasets
+
+  Dataset:
+    class_uri: dcat:dataset
+    description: |-
+      Dataset definition which introduced a particular subject.
+    slots:
+      - subjects
+    attributes:
+      format:
+        slot_uri: dcterms:format
+      issued:
+        slot_uri: dcterms:issued
+      modified:
+        slot_uri: dcterms:modified
+
+  Finding:
+    description: |-
+      Target of a NCIT_R108 "disease has finding"
+
+  History:
+    # class_uri: obo:NCIT_C81246
+    slots:
+      - value
+    attributes:
+      has_quality:
+        slot_uri: obo:RO_0000086
+        # range: TBD
+      range:
+        slot_uri: rdfs:range
+      unit:
+        slot_uri: sio:SIO_000221
+
+  IDH:
+    class_uri: obo:NCIT_C157185
+    description: |-
+      IDH1/IDH2 Mutation Analysis
+    slots:
+      - value  # range: TBD
+
+  Pathology:
+    description: |-
+      it's complicated ... (TBD: bnode)
+    attributes:
+      finding:
+        slot_uri: obo:NCIT_R108
+        range: Finding
+        multivalued: true
+      history:
+        slot_uri: obo:BFO_0000185
+        range: History
+        multivalued: true
+      idh:
+        slot_uri: obo:MICRO_0001469
+        range: IDH
+      quality:
+        slot_uri: obo:RO_0000086
+        range: Quality
+        multivalued: true
+
+  Properties:
+    description: |-
+      Bnode representing the properties associated with a patient.
+    slots:
+      - label
+    attributes:
+      age:
+        slot_uri: foaf:age
+        range: integer
+      birth_date:
+        slot_uri: schema:birthDate
+        range: date
+      diagnosis:
+        slot_uri: schema:diagnosis
+        range: Pathology
+      gender:
+        slot_uri: schema:gender
+        range: GenderEnum
+      specimen:
+        slot_uri: obo:HSO_0000308
+        range: Specimen
+        multivalued: true
+
+  Quality:
+    description: |-
+      A quality that is had by a patient.
+    attributes:
+      unit:
+        slot_uri: sio:SIO_000221
+      timestamp:
+        slot_uri: obo:IAO_0000581
+        range: Timestamp
+
+  Specimen:
+    class_uri: obo:NCIT_C70700
+    description: |-
+      Archived specimen from a subject.
+    slots:
+      - value  # TBD: range
+
+  Subject:
+    class_uri: obo:NCIT_C16960
+    description: |-
+      Central class of the GBM model.
+    slots:
+      - id
+    attributes:
+      site:
+        slot_uri: sio:SIO_000066
+        any_of:
+          - range: schema:MedicalClinic
+          - range: schema:DiagnosticLab
+        multivalued: true
+      dataset:
+        slot_uri: dcterms:isPartOf
+        range: uriorcurie  # TBD: make link to the dataset
+      properties:
+        slot_uri: sio:SIO_000223
+        range: Properties
+        inlined: true
+        inlined_as_list: false
+        multivalued: false
+
+  Timestamp:
+    description: |-
+      Sometimes the target of IAO_0000581 (TBD)
+    slots:
+      - label
+
+slots:
+  datasets:
+    slot_uri: gbm:TBD_contains
+    range: Dataset
+    multivalued: true
+  subjects:
+    slot_uri: gbm:TBD_contains
+    range: Subject
+    inlined: true
+    inlined_as_list: true
+    multivalued: true
+  id:
+    identifier: true
+    slot_uri: dcterms:identifier
+    range: uriorcurie
+  label:
+    slot_uri: rdfs:label
+  quality:
+      slot_uri: obo:RO_0000086
+      any_of:
+        - range: Quality
+        - range: obo:NCIT_C2140
+      multivalued: true
+  
+  value:
+    slot_uri: rdf:value
+    multivalued: true
+
+enums:
+  GenderEnum:
+    permissible_values:
+      M:
+        meaning: obo:NCIT_C16576
+      F:
+        meaning: obo:NCIT_C20197
+      unknown:
+        description: gender is not known
+        todos:
+          - map this to an ontology
