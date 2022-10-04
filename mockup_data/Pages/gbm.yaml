@@ -108,20 +108,25 @@ classes:
         slot_uri: obo:NCIT_R108
         range: Finding
         multivalued: true
+        inlined: true
       history:
         slot_uri: obo:BFO_0000185
         range: History
         multivalued: true
+        inlined: true
       idh:
         slot_uri: obo:MICRO_0001469
         range: IDH
+        inlined: true
       localization:
         slot_uri: wd:P927
         range: Localization
+        inlined: true
       specimen:
         slot_uri: obo:HSO_0000308
         range: Specimen
         multivalued: true
+        inlined: true
 
   Properties:
     description: |-
@@ -139,6 +144,7 @@ classes:
       diagnosis:
         slot_uri: schema:diagnosis
         range: Pathology
+        inlined: true
       gender:
         slot_uri: schema:gender
         range: GenderEnum
@@ -192,6 +198,8 @@ slots:
   datasets:
     slot_uri: gbm:TBD_contains
     range: Dataset
+    inlined: true
+    inlined_as_list: true
     multivalued: true
   subjects:
     slot_uri: gbm:TBD_contains
@@ -209,10 +217,13 @@ slots:
   quality:
     slot_uri: obo:RO_0000086
     range: Quality
+    inlined: true
+    inlined_as_list: true
     multivalued: true
   timestamp:
     slot_uri: obo:IAO_0000581
     range: Timestamp
+    inlined: true
   value:
     slot_uri: rdf:value
     multivalued: true
