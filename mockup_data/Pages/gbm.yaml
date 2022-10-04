@@ -64,12 +64,7 @@ classes:
       Target of a NCIT_R108 "disease has finding"
     slots:
       - unit
-      - value
-    # TBD: mixed types not woring
-    # slot_usage:
-    #   value:
-    #      - range: integer
-    #      - range: Term
+      - value # TBD: can't UNION types & enums
 
   History:
     # class_uri: obo:NCIT_C81246
