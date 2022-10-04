@@ -45,13 +45,13 @@ classes:
       - subjects
       - datasets
 
-  Dataset:
-    class_uri: dcat:dataset
+  Datafile:
+    class_uri: dcat:Dataset
     description: |-
       Dataset definition which introduced a particular subject.
-    slots:
-      - subjects
     attributes:
+      uri:
+        identifier: true
       format:
         slot_uri: dcterms:format
       issued:
@@ -168,7 +168,7 @@ classes:
   Subject:
     class_uri: obo:NCIT_C16960
     description: |-
-      Central class of the GBM model.
+      Central class of the GBM model, or "Patient".
     slots:
       - id
     attributes:
@@ -178,9 +178,9 @@ classes:
           - range: schema:MedicalClinic
           - range: schema:DiagnosticLab
         multivalued: true
-      dataset:
+      datafile:
         slot_uri: dcterms:isPartOf
-        range: uriorcurie  # TBD: make link to the dataset
+        range: Datafile
       properties:
         slot_uri: sio:SIO_000223
         range: Properties
@@ -196,13 +196,13 @@ classes:
 
 slots:
   datasets:
-    slot_uri: gbm:TBD_contains
-    range: Dataset
+    slot_uri: gbm:datafiles #TBD
+    range: Datafile
     inlined: true
     inlined_as_list: true
     multivalued: true
   subjects:
-    slot_uri: gbm:TBD_contains
+    slot_uri: gbm:subjects #TBD
     range: Subject
     inlined: true
     inlined_as_list: true
