@@ -1,10 +1,14 @@
 JUPYTER=conda run -n jbook
+LINKML=conda run -n linkml
 SHEET=
 
 ### RDF WORKFLOW ################################
 
-rdf:
-	linkml-convert -f ttl -t yaml -s gbm.yaml -C Subject test.ttl -o out.yaml
+out.jsonld: gbm.yaml test.ttl
+	$(LINKML) linkml-convert -f ttl -t json-ld -s gbm.yaml -C Subject test.ttl -o out.jsonld
+
+out.yaml: gbm.yaml test.ttl
+	$(LINKML) linkml-convert -f ttl -t yaml -s gbm.yaml -C Subject test.ttl -o out.yaml
 
 ### TABULAR WORKFLOW ############################
 
@@ -18,23 +22,23 @@ out.tsv: test.tsv preprocess.py clinics.tsv labs.tsv
 	python preprocess.py test.tsv out.tsv
 
 out.json: out.tsv gbm.yaml
-	linkml-convert -f tsv -t json -s gbm.yaml -C Root -S subjects out.tsv -o out.json
+	$(LINKML) linkml-convert -f tsv -t json -s gbm.yaml -C Root -S subjects out.tsv -o out.json
 
 out.ttl: out.tsv gbm.yaml
-	linkml-convert -f tsv -t ttl -s gbm.yaml -C Root -S subjects out.tsv -o out.ttl
+	$(LINKML) linkml-convert -f tsv -t ttl -s gbm.yaml -C Root -S subjects out.tsv -o out.ttl
 
 #
 # Schema level tools
 #
 
 lint:
-	linkml-lint gbm.yaml
+	$(LINKML) linkml-lint gbm.yaml
 
 schema.png: gbm.yaml
-	gen-graphviz -o schema -f png gbm.yaml
+	$(LINKML) gen-graphviz -o schema -f png gbm.yaml
 
 docs: gbm.yaml
-	gen-markdown --index-file docs/schema.md -d docs gbm.yaml
+	$(LINKML) gen-markdown --index-file docs/schema.md -d docs gbm.yaml
 
 #
 # Misc
@@ -46,6 +50,9 @@ mkdocs: docs
 
 convert2rdf.py: convert2rdf.ipynb
 	$(JUPYTER) jupyter nbconvert --to python convert2rdf.ipynb convert2rdf.py
+
+test.ttl: convert2rdf.py
+	$(JUPYTER) python convert2rdf.py
 
 graphviz: convert2rdf.py
 	python convert2rdf.py
