@@ -69,9 +69,6 @@ classes:
     abstract: true
     description: |-
       Target of a NCIT_R108 "disease has finding"
-    slots:
-      - unit
-      - value # TBD: can't UNION types & enums
 
   DiseaseResponse:
     is_a: Finding
@@ -94,12 +91,44 @@ classes:
       edamatous:
         range: boolean
 
+  LymphocyteCount:
+    is_a: Finding
+    class_uri: efo:EFO_0004587
+    slots:
+      - timestamp
+    attributes:
+      lymphocyteCount:
+        range: float
+        slot_uri: rdf:value
+
   PseudoProgression:
     is_a: Finding
     class_uri: obo:NCIT_C98298
     attributes:
       pseudoProgression:
         range: boolean
+
+  Survival:
+    is_a: Finding
+    slot_usage:
+      unit:
+        range: TimeEnum
+
+  OverallSurvival:
+    is_a: Survival
+    class_uri: obo:NCIT_C125201
+    attributes:
+      monthsOS:
+        slot_uri: rdf:value
+        range: integer
+
+  ProgressiveFreeSurvival:
+    is_a: Survival
+    class_uri: obo:NCIT_C28234
+    attributes:
+      monthsPFS:
+        slot_uri: rdf:value
+        range: integer
 
   # end findings ---------------------
 
@@ -280,52 +309,16 @@ classes:
     class_uri: obo:NCIT_C102408
     attributes:
       ecog:
-        range: ECOGStatus
         slot_uri: rdf:value
+        range: ECOGStatus
 
   Dead:
     is_a: Quality
     class_uri: obo:NCIT_C28554
     attributes:
-      dead:
+      deceased:
         slot_uri: rdf:value
-
-  LymphocyteCount:
-    is_a: Quality
-    class_uri: efo:EFO_0004587
-    slots:
-      - timestamp
-      - unit
-    attributes:
-      lymphocyteCount:
-        range: float
-        slot_uri: rdf:value
-
-  # Pathology Qualities
-
-  Survival:
-    is_a: Quality
-    slots:
-      - unit
-    slot_usage:
-      unit:
-        range: TimeEnum
-
-  OverallSurvival:
-    is_a: Survival
-    class_uri: obo:NCIT_C125201
-    attributes:
-      monthsOS:
-        slot_uri: rdf:value
-        range: integer
-
-  ProgressiveFreeSurvival:
-    is_a: Survival
-    class_uri: obo:NCIT_C28234
-    attributes:
-      monthsPFS:
-        slot_uri: rdf:value
-        range: integer
+        range: boolean
 
   # end qualities -------------------
 
@@ -484,3 +477,7 @@ enums:
     permissible_values:
       Month:
         meaning: obo:NCIT_C29846
+
+# Lessons learned:
+# - don't have class and property name the same
+# - don't have the same enum in multiple Enums
