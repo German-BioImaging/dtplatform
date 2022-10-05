@@ -1,10 +1,11 @@
 id: https://wellcomeleap.org/delta-tissue/models/mdr/gbm
 name: gbm
+license: https://creativecommons.org/publicdomain/zero/1.0/
+version: 0.0.1
 
 description: |-
   Delta Tissue MDR model for glioblatoma data.
 
-license: https://creativecommons.org/publicdomain/zero/1.0/
 
 imports:
   - linkml:types
