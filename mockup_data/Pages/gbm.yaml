@@ -127,6 +127,9 @@ classes:
       time:
         slot_uri: rdf:value
         range: integer
+      range:
+        slot_uri: rdfs:range
+        range: Term
 
   # TBD: add to "DrugUse" hierarchy ?
 
