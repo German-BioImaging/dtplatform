@@ -1,0 +1,360 @@
+id: https://wellcomeleap.org/delta-tissue/models/mdr/gbm
+name: gbm
+license: https://creativecommons.org/publicdomain/zero/1.0/
+version: 0.0.1
+
+description: |-
+  Delta Tissue MDR model for glioblatoma data.
+
+
+imports:
+  - linkml:types
+  - ../model
+
+default_curi_maps:
+  - semweb_context
+
+default_range: string
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  clinic: http://clinicalsite.semscape.org/
+  dcat: http://www.w3.org/ns/dcat#
+  dcterms: http://purl.org/dc/terms/
+  efo: http://www.ebi.ac.uk/efo/
+  foaf: http://xmlns.com/foaf/0.1/
+  gbm: https://wellcomeleap.org/delta-tissue/ns/gbm/
+  lab: http://labsite.semscape.org/
+  node: http://idr.semscape.org/nodeURI/
+  obo: http://purl.obolibrary.org/obo/
+  # TBD: non-canonical use of https for schema.org
+  schema: https://schema.org/
+  sio: http://semanticscience.org/resource/
+  subject: http://subjects.semscape.org/
+  wd: http://www.wikidata.org/entity/
+  wdt: http://www.wikidata.org/prop/direct/
+  xsd: http://www.w3.org/2001/XMLSchema#
+
+default_prefix: gbm
+
+classes:
+
+  # Subclassing ---------------
+
+  GBMSubject:
+    is_a: Subject
+    class_uri: obo:NCIT_C16960
+    slot_usage:
+      properties:
+        range: GBMProperties
+
+  GBMProperties:
+    is_a: Properties
+    attributes:
+      diagnosis:
+        slot_uri: schema:diagnosis
+        range: Pathology
+        inlined: true
+
+  # findings ---------------------
+
+  Finding:
+    abstract: true
+    description: |-
+      Target of a NCIT_R108 "disease has finding"
+
+  DiseaseResponse:
+    is_a: Finding
+    class_uri: obo:NCIT_C50995
+    attributes:
+      diseaseResponse:
+        range: DiseaseReponseEnum
+
+  DieseaseProgression:
+    is_a: Finding
+    class_uri: obo:NCIT_C17747
+    attributes:
+      progression:
+        range: boolean
+
+  Edamatous:
+    is_a: Finding
+    class_uri: obo:PATO_0001450
+    attributes:
+      edamatous:
+        range: boolean
+
+  LymphocyteCount:
+    is_a: Finding
+    class_uri: efo:EFO_0004587
+    slots:
+      - timestamp
+    attributes:
+      lymphocyteCount:
+        range: float
+        slot_uri: rdf:value
+
+  PseudoProgression:
+    is_a: Finding
+    class_uri: obo:NCIT_C98298
+    attributes:
+      pseudoProgression:
+        range: boolean
+
+  Survival:
+    is_a: Finding
+    slot_usage:
+      unit:
+        range: TimeEnum
+
+  OverallSurvival:
+    is_a: Survival
+    class_uri: obo:NCIT_C125201
+    attributes:
+      monthsOS:
+        slot_uri: rdf:value
+        range: integer
+
+  ProgressiveFreeSurvival:
+    is_a: Survival
+    class_uri: obo:NCIT_C28234
+    attributes:
+      monthsPFS:
+        slot_uri: rdf:value
+        range: integer
+
+  # end findings ---------------------
+
+  # histories ---------------------
+
+  History:
+    abstract: true
+    slots:
+      - timestamp
+      - unit
+
+  DrugUse:
+    is_a: History
+    class_uri: obo:NCIT_C81246
+    attributes:
+      phase:
+        slot_uri: rdfs:label
+      time:
+        slot_uri: rdf:value
+        range: integer
+      range:
+        slot_uri: rdfs:range
+        range: Term
+
+  # TBD: add to "DrugUse" hierarchy ?
+
+  Bevacizumab:
+    is_a: History
+    class_uri: obo:NCIT_C2039
+    attributes:
+      dosesBevacizumab:
+        range: integer
+
+  Temozolomide:
+    is_a: History
+    class_uri: obo:NCIT_C1244
+    attributes:
+      has_quality:
+        slot_uri: obo:RO_0000086x # TBD
+        range: Term
+      cyclesAdjTMZ:
+        range: integer
+
+  # end histories ---------------------
+
+  Localization:
+    class_uri: obo:NCIT_C13717
+    description: |-
+      Anatomical localization along with qualifiers
+    slots:
+      - value
+    slot_usage:
+      value:
+        range: LocalizationEnum
+    attributes:
+      qualifier:
+        slot_uri: obo:NCIT_A4
+        range: LocalizationEnum
+
+  # measurements -----------------------------------
+
+  Measurement:
+    abstract: true
+    slots:
+      - value
+
+  IDH:
+    is_a: Measurement
+    class_uri: obo:NCIT_C157185
+    description: |-
+      IDH1/IDH2 Mutation Analysis
+    slots:
+      - value
+    slot_usage:
+      value:
+        range: MutationTypeEnum
+
+  MGMT:
+    is_a: Measurement
+    class_uri: obo:NCIT_C79101
+    description: |-
+      MGMT Methylation Assay status
+    slots:
+      - value
+    slot_usage:
+      value:
+        range: MethylationEnum
+
+  # end measurements -----------------------------------
+
+  # pathologies -----------------------------------
+
+  Pathology:
+    abstract: true
+    description: |-
+      it's complicated ... (TBD: bnode)
+    slots:
+      - quality
+    attributes:
+      finding:
+        slot_uri: obo:NCIT_R108
+        range: Finding
+        inlined: true
+        inlined_as_list: true
+        multivalued: true
+      history:
+        slot_uri: obo:BFO_0000185
+        range: History
+        inlined: true
+        inlined_as_list: true
+        multivalued: true
+      measurement:
+        slot_uri: obo:MICRO_0001469
+        range: Measurement
+        inlined: true
+        inlined_as_list: true
+        multivalued: true
+      localization:
+        slot_uri: wdt:P927
+        range: Localization
+        inlined: true
+        inlined_as_list: true
+        multivalued: true
+      specimen:
+        slot_uri: obo:HSO_0000308
+        range: Specimen
+        inlined: true
+        inlined_as_list: true
+        multivalued: true
+
+  GbmPathology:
+    is_a: Pathology
+    class_uri: obo:DOID_3068
+
+  AiiiPathology:
+    is_a: Pathology
+    class_uri: obo:FIXME
+
+  # end pathologies -----------------------------------
+
+  # qualities ---------------------
+
+  # Property Qualities
+
+  ECOG:
+    is_a: Quality
+    class_uri: obo:NCIT_C102408
+    attributes:
+      ecog:
+        slot_uri: rdf:value
+        range: ECOGStatus
+
+  Dead:
+    is_a: Quality
+    class_uri: obo:NCIT_C28554
+    attributes:
+      deceased:
+        slot_uri: rdf:value
+        range: boolean
+
+  # end qualities -------------------
+
+  Specimen:
+    class_uri: obo:NCIT_C70700
+    description: |-
+      Archived specimen from a subject.
+    slots:
+      - value
+    slot_usage:
+      value:
+        range: Term
+
+  Timestamp:
+    description: |-
+      Sometimes the target of IAO_0000581 (TBD)
+    slots:
+      - label
+
+slots:
+  timestamp:
+    slot_uri: obo:IAO_0000581
+    range: Timestamp
+    inlined: true
+  unit:
+    slot_uri: sio:SIO_000221
+    range: Term
+  value:
+    slot_uri: rdf:value
+    multivalued: true
+
+enums:
+
+  DiseaseReponseEnum:
+    permissible_values:
+      ProgressiveDisease:
+        meaning: obo:NCIT_C35571
+      PartialRemission:
+        meaning: obo:NCIT_C18058
+      StableDisease:
+        meaning: obo:NCIT_C18213
+      CompleteRemission:
+        meaning: obo:NCIT_C4870
+
+  ECOGStatus:
+    permissible_values:
+      ECOG0:
+        meaning: obo:NCIT_C105722
+      ECOG1:
+        meaning: obo:NCIT_C105723
+
+  LocalizationEnum:
+    permissible_values:
+      Right:
+        meaning: obo:NCIT_C25228
+      Dorsal:
+        meaning: obo:NCIT_C45874
+      FrontalR:
+        meaning: obo:NCIT_C12352
+      TemporalD:
+        meaning: obo:NCIT_C12353
+      ParietalR:
+        meaning: obo:NCIT_C12354
+
+  MethylationEnum:
+    permissible_values:
+      UnmethylatedMGMTGenePromoter:
+        meaning: obo:NCIT_C132892
+      MGMTGenePromoterMethylation:
+        meaning: obo:NCIT_C153562
+
+  MutationTypeEnum:
+    permissible_values:
+      GeneMutation:
+        meaning: obo:NCIT_C18093
+      WildType:
+        meaning: obo:NCIT_C62195

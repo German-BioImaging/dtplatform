@@ -1,0 +1,65 @@
+JUPYTER=conda run -n dt
+LINKML=conda run -n linkml
+SHEET=
+MODEL=model.yaml
+
+### RDF WORKFLOW ################################
+
+out.jsonld: $(MODEL )test.ttl
+	$(LINKML) linkml-convert -f ttl -t json-ld -s $(MODEL) -C Subject test.ttl -o out.jsonld
+
+out.yaml: $(MODEL) test.ttl
+	$(LINKML) linkml-convert -f ttl -t yaml -s $(MODEL) -C Subject test.ttl -o out.yaml
+
+### TABULAR WORKFLOW ############################
+
+tabular: out.json
+	cat out.json
+
+test.tsv: test.xlsx
+	xlsx2csv -s 1 -d tab test.xlsx test.tsv
+
+out.tsv: test.tsv preprocess.py clinics.tsv labs.tsv
+	python preprocess.py test.tsv out.tsv
+
+out.json: out.tsv $(MODEL)
+	$(LINKML) linkml-convert -f tsv -t json -s $(MODEL) -C Root -S subjects out.tsv -o out.json
+
+out.ttl: out.tsv $(MODEL)
+	$(LINKML) linkml-convert -f tsv -t ttl -s $(MODEL) -C Root -S subjects out.tsv -o out.ttl
+
+#
+# Schema level tools
+#
+
+lint:
+	$(LINKML) linkml-lint $(MODEL)
+
+schema.png: $(MODEL)
+	$(LINKML) gen-graphviz -o schema -f png $(MODEL)
+
+docs: $(MODEL)
+	$(LINKML) gen-markdown --index-file docs/schema.md -d docs $(MODEL)
+
+#
+# Misc
+#
+#
+
+mkdocs: docs
+	mkdocs serve
+
+convert2rdf.py: convert2rdf.ipynb
+	rm -f convert2rdf.py  # nbconvert doesn't like to overwrite files
+	$(JUPYTER) jupyter nbconvert --to python convert2rdf.ipynb convert2rdf.py
+
+test.ttl: convert2rdf.py
+	$(JUPYTER) python convert2rdf.py
+
+graphviz: convert2rdf.py
+	python convert2rdf.py
+
+clean:
+	rm -rf convert2rdf.py test.tsv out.tsv out.ttl out.json out.yaml schema.png docs
+
+.PHONY: graphviz lint mkdocs tabular

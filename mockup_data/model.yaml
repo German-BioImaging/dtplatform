@@ -1,0 +1,202 @@
+id: https://wellcomeleap.org/delta-tissue/models/mdr/
+name: mdr
+license: https://creativecommons.org/publicdomain/zero/1.0/
+version: 0.0.1
+
+description: |-
+  Delta Tissue MDR model base definitions.
+
+
+imports:
+  - linkml:types
+
+default_curi_maps:
+  - semweb_context
+
+default_range: string
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  clinic: http://clinicalsite.semscape.org/
+  dcat: http://www.w3.org/ns/dcat#
+  dcterms: http://purl.org/dc/terms/
+  efo: http://www.ebi.ac.uk/efo/
+  foaf: http://xmlns.com/foaf/0.1/
+  mdr: https://wellcomeleap.org/delta-tissue/ns/mdr/
+  lab: http://labsite.semscape.org/
+  node: http://idr.semscape.org/nodeURI/
+  obo: http://purl.obolibrary.org/obo/
+  # TBD: non-canonical use of https for schema.org
+  schema: https://schema.org/
+  sio: http://semanticscience.org/resource/
+  subject: http://subjects.semscape.org/
+  wd: http://www.wikidata.org/entity/
+  wdt: http://www.wikidata.org/prop/direct/
+  xsd: http://www.w3.org/2001/XMLSchema#
+
+default_prefix: mdr
+
+classes:
+
+  Root:
+    description: |-
+      Root container for the primary identifiers in this dataset.
+    tree_root: true
+    slots:
+      - subjects
+      - datasets
+
+  Datafile:
+    class_uri: dcat:Dataset
+    description: |-
+      Dataset definition which introduced a particular subject.
+    slots:
+      - label
+    attributes:
+      uri:
+        identifier: true
+      format:
+        slot_uri: dcterms:format
+        range: Format
+        inlined: true
+      issued:
+        slot_uri: dcterms:issued
+      modified:
+        slot_uri: dcterms:modified
+
+  Format:
+    slots:
+      - label
+    attributes:
+      uri:
+        identifier: true
+
+  Subject:
+    abstract: true
+    description: |-
+      Central class of the MDR model, or "Patient".
+    slots:
+      - id
+    attributes:
+      site:
+        slot_uri: sio:SIO_000066
+        any_of:
+          - range: schema:MedicalClinic
+          - range: schema:DiagnosticLab
+        multivalued: true
+      datafile:
+        slot_uri: dcterms:isPartOf
+        range: Datafile
+      properties:
+        slot_uri: sio:SIO_000223
+        range: Properties
+        inlined: true
+        inlined_as_list: false
+        multivalued: false
+
+  Properties:
+    description: |-
+      Bnode representing the properties associated with a patient.
+    slots:
+      - quality
+    attributes:
+      age:
+        slot_uri: foaf:age
+        range: integer
+      birth_date:
+        slot_uri: schema:birthDate
+        range: date
+      gender:
+        slot_uri: schema:gender
+        range: GenderEnum
+
+  Quality:
+    abstract: true
+    description: |-
+      A quality that is had by a patient.
+
+slots:
+  # Root slots
+  datasets:
+    slot_uri: mdr:datafiles #TBD
+    range: Datafile
+    inlined: true
+    inlined_as_list: true
+    multivalued: true
+  subjects:
+    slot_uri: mdr:subjects #TBD
+    range: Subject
+    inlined: true
+    inlined_as_list: true
+    multivalued: true
+  # Other slots
+  id:
+    identifier: true
+    slot_uri: dcterms:identifier
+    range: uriorcurie
+  label:
+    slot_uri: rdfs:label
+    range: string
+  quality:
+    slot_uri: obo:RO_0000086
+    range: Quality
+    inlined: true
+    inlined_as_list: true
+    multivalued: true
+
+enums:
+  GenderEnum:
+    permissible_values:
+      M:
+        meaning: obo:NCIT_C16576
+      F:
+        meaning: obo:NCIT_C20197
+      unknown:
+        description: gender is not known
+        todos:
+          - map this to an ontology
+
+  Term:
+    permissible_values:
+      steroid:
+        meaning: obo:CHEBI_35341
+      PartialResection:
+        meaning: obo:NCIT_C131680
+      Biopsy,:
+        meaning: obo:NCIT_C175027
+      Adjuvant:
+        meaning: obo:NCIT_C2140
+      Cycle,:
+        meaning: obo:NCIT_C25472
+      DrugFIXME:
+        meaning: obo:UO_0000022
+      Biopsy:
+        meaning: obo:NCIT_C15189
+      # Added for TNBC
+      Percentage:
+        meaning: obo:SIO_001413
+      Ki67Measurement:
+        meaning: obo:NCIT_C123557
+      ProgesteroneReceptorStatus:
+        meaning: obo:NCIT_C16149
+      HER2CopyNumberMeasurement:
+        meaning: obo:NCIT_C184942
+      EstrogenReceptorStatus:
+        meaning: obo:NCIT_C16150
+      GlycosylatedHemoglobinMeasurement:
+        meaning: obo:NCIT_C64849
+      BodyMassIndex:
+        meaning: obo:NCIT_C16358
+      Gene:
+        meaning: obo:NCIT_C16612
+
+  TimeEnum:
+    permissible_values:
+      Month:
+        meaning: obo:NCIT_C29846
+      Minute:
+        meaning: obo:SIO_000434
+
+# Lessons learned:
+# - don't have class and property name the same
+# - don't have the same enum in multiple Enums

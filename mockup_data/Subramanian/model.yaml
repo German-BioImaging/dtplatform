@@ -1,0 +1,136 @@
+id: https://wellcomeleap.org/delta-tissue/models/mdr/tnbc
+name: tnbc
+license: https://creativecommons.org/publicdomain/zero/1.0/
+version: 0.0.1
+
+description: |-
+  Delta Tissue MDR model for TNBC data.
+
+
+imports:
+  - linkml:types
+  - ../model
+
+default_curi_maps:
+  - semweb_context
+
+default_range: string
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  clinic: http://clinicalsite.semscape.org/
+  dcat: http://www.w3.org/ns/dcat#
+  dcterms: http://purl.org/dc/terms/
+  efo: http://www.ebi.ac.uk/efo/
+  foaf: http://xmlns.com/foaf/0.1/
+  tnbc: https://wellcomeleap.org/delta-tissue/ns/tnbc/
+  lab: http://labsite.semscape.org/
+  node: http://idr.semscape.org/nodeURI/
+  obo: http://purl.obolibrary.org/obo/
+  # TBD: non-canonical use of https for schema.org
+  schema: https://schema.org/
+  sio: http://semanticscience.org/resource/
+  subject: http://subjects.semscape.org/
+  wd: http://www.wikidata.org/entity/
+  wdt: http://www.wikidata.org/prop/direct/
+  xsd: http://www.w3.org/2001/XMLSchema#
+
+default_prefix: tnbc
+
+classes:
+
+  # Subclassing ---------------
+
+  TNBCSubject:
+    is_a: Subject
+    class_uri: obo:NCIT_C16960
+    slot_usage:
+      properties:
+        range: TNBCProperties
+      specimens:
+        slot_uri: obo:OBI_0100051
+        range: Specimen
+        inlined: true
+        inlined_as_list: true
+        multivalued: true
+
+  TNBCProperties:
+    is_a: Properties
+
+  # Specimen ----------------------
+
+  Specimen:
+    class_uri: obo:NCIT_C19157
+    attributes:
+      collection:
+        slot_uri: obo:HSO_0000288
+        range: Collection
+        inlined: true
+        inlined_as_list: true
+        multivalued: true
+      finding:
+        slot_uri: obo:TXPO_0001873
+        range: Measurement
+        inlined: true
+        inlined_as_list: true
+        multivalued: true
+      handling:
+        slot_uri: obo:RO_0002334
+        range: Handling
+        inlined: true
+        inlined_as_list: true
+        multivalued: true
+      treatment:
+        slot_uri: wdt:P2176
+        range: Treatment
+        inlined: true
+        inlined_as_list: true
+        multivalued: true
+
+  Collection:
+    class_uri: obo:NCIT_C70700
+    attributes:
+      collectionMethod:
+        slot_uri: rdf:value
+        range: CollectionEnum
+
+  Measurement:
+    class_uri: obo:NCIT_C25209
+    attributes:
+      domain:
+        slot_uri: rdfs:domain
+        range: Term
+      unit:
+        slot_uri: sio:SIO_000221
+        range: Term
+      value:
+        slot_uri: rdf:value
+        range: float
+
+  Handling:
+    class_uri: obo:NCIT_C179745
+    attributes:
+      range:
+        slot_uri: rdfs:range
+      unit:
+        slot_uri: sio:SIO_000221
+        range: TimeEnum
+      value:
+        slot_uri: rdf:value
+
+  Treatment:
+    class_uri: obo:NCIT_C15665
+    attributes:
+      startDate:
+        slot_uri: schema:startDate
+        range: date
+
+enums:
+  CollectionEnum:
+    permissible_values:
+      Biopsy:
+        meaning: obo:NCIT_C15189
+      ExcisionalBiopsyOfBreast:
+        meaning: obo:NCIT_C51633
+      RadicalMastectomy:
+        meaning: obo:NCIT_C15279
