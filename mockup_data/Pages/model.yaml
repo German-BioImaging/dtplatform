@@ -358,29 +358,3 @@ enums:
         meaning: obo:NCIT_C18093
       WildType:
         meaning: obo:NCIT_C62195
-
-  Term:
-    permissible_values:
-      steroid:
-        meaning: obo:CHEBI_35341
-      PartialResection:
-        meaning: obo:NCIT_C131680
-      Biopsy,:
-        meaning: obo:NCIT_C175027
-      Adjuvant:
-        meaning: obo:NCIT_C2140
-      Cycle,:
-        meaning: obo:NCIT_C25472
-      DrugFIXME:
-        meaning: obo:UO_0000022
-      Biopsy:
-        meaning: obo:NCIT_C15189
-
-  TimeEnum:
-    permissible_values:
-      Month:
-        meaning: obo:NCIT_C29846
-
-# Lessons learned:
-# - don't have class and property name the same
-# - don't have the same enum in multiple Enums
