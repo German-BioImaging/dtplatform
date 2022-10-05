@@ -78,7 +78,6 @@ classes:
         identifier: true
 
   History:
-    # class_uri: obo:NCIT_C81246
     slots:
       - timestamp
       - value
@@ -203,19 +202,15 @@ classes:
   ECOG:
     is_a: Quality
     class_uri: obo:NCIT_C102408
-    slots:
-      - value
-    slot_usage:
-      value:
+    attributes:
+      ecog:
         range: ECOGStatus
 
   Dead:
     is_a: Quality
     class_uri: obo:NCIT_C28554
-    slots:
-      - value
-    slot_usage:
-      - range: boolean
+    attributes:
+      dead:
 
   LymphocyteCount:
     is_a: Quality
@@ -223,9 +218,8 @@ classes:
     slots:
       - timestamp
       - unit
-      - value
-    slot_usage:
-      value:
+    attributes:
+      lymphocyteCount:
         range: float
 
   # end qualities -------------------
