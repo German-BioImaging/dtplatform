@@ -140,6 +140,7 @@ classes:
   # end histories ---------------------
 
   Localization:
+    class_uri: obo:NCIT_C13717
     description: |-
       Anatomical localization along with qualifiers
     slots:
@@ -208,7 +209,7 @@ classes:
         inlined_as_list: true
         multivalued: true
       localization:
-        slot_uri: wd:P927
+        slot_uri: wdt:P927
         range: Localization
         inlined: true
         inlined_as_list: true
