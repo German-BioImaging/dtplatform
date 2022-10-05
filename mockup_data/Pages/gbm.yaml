@@ -63,12 +63,45 @@ classes:
       modified:
         slot_uri: dcterms:modified
 
+  # findings ---------------------
+
   Finding:
+    abstract: true
     description: |-
       Target of a NCIT_R108 "disease has finding"
     slots:
       - unit
       - value # TBD: can't UNION types & enums
+
+  DiseaseResponse:
+    is_a: Finding
+    class_uri: obo:NCIT_C50995
+    attributes:
+      diseaseResponse:
+        range: DiseaseReponseEnum
+
+  DieseaseProgression:
+    is_a: Finding
+    class_uri: obo:NCIT_C17747
+    attributes:
+      progression:
+        range: boolean
+
+  Edamatous:
+    is_a: Finding
+    class_uri: obo:PATO_0001450
+    attributes:
+      edamatous:
+        range: boolean
+
+  PseudoProgression:
+    is_a: Finding
+    class_uri: obo:NCIT_C98298
+    attributes:
+      pseudoProgression:
+        range: boolean
+
+  # end findings ---------------------
 
   Format:
     slots:
@@ -77,20 +110,34 @@ classes:
       uri:
         identifier: true
 
+  # histories ---------------------
+
   History:
+    abstract: true
     slots:
       - timestamp
-      - value
+      - unit
+
+  # TBD: Introduce "DrugUse" ?
+
+  Bevacizumab:
+    is_a: History
+    class_uri: obo:NCIT_C2039
+    attributes:
+      dosesBevacizumab:
+        range: integer
+
+  Temozolomide:
+    is_a: History
+    class_uri: obo:NCIT_C1244
     attributes:
       has_quality:
         slot_uri: obo:RO_0000086x # TBD
         range: Term
-      range:
-        slot_uri: rdfs:range
-        range: Term
-      unit:
-        slot_uri: sio:SIO_000221
-        range: Term
+      cyclesAdjTMZ:
+        range: integer
+
+  # end histories ---------------------
 
   Localization:
     description: |-
@@ -302,6 +349,17 @@ slots:
 
 enums:
 
+  DiseaseReponseEnum:
+    permissible_values:
+      ProgressiveDisease:
+        meaning: obo:NCIT_C35571
+      PartialRemission:
+        meaning: obo:NCIT_C18058
+      StableDisease:
+        meaning: obo:NCIT_C18213
+      CompleteRemission:
+        meaning: obo:NCIT_C4870
+
   ECOGStatus:
     permissible_values:
       ECOG0:
@@ -355,20 +413,12 @@ enums:
         meaning: obo:NCIT_C131680
       Biopsy,:
         meaning: obo:NCIT_C175027
-      PartialRemission:
-        meaning: obo:NCIT_C18058
-      StableDisease:
-        meaning: obo:NCIT_C18213
       Adjuvant:
         meaning: obo:NCIT_C2140
       Cycle,:
         meaning: obo:NCIT_C25472
       Month:
         meaning: obo:NCIT_C29846
-      ProgressiveDisease:
-        meaning: obo:NCIT_C35571
-      CompleteRemission:
-        meaning: obo:NCIT_C4870
       DrugFIXME:
         meaning: obo:UO_0000022
       Biopsy:
