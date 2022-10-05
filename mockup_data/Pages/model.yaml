@@ -9,6 +9,7 @@ description: |-
 
 imports:
   - linkml:types
+  - ../model
 
 default_curi_maps:
   - semweb_context
@@ -38,31 +39,22 @@ default_prefix: gbm
 
 classes:
 
-  Root:
-    description: |-
-      Root container for the primary identifiers in this dataset.
-    tree_root: true
-    slots:
-      - subjects
-      - datasets
+  # Subclassing ---------------
 
-  Datafile:
-    class_uri: dcat:Dataset
-    description: |-
-      Dataset definition which introduced a particular subject.
-    slots:
-      - label
+  GBMSubject:
+    is_a: Subject
+    class_uri: obo:NCIT_C16960
+    slot_usage:
+      properties:
+        range: GBMProperties
+
+  GBMProperties:
+    is_a: Properties
     attributes:
-      uri:
-        identifier: true
-      format:
-        slot_uri: dcterms:format
-        range: Format
+      diagnosis:
+        slot_uri: schema:diagnosis
+        range: Pathology
         inlined: true
-      issued:
-        slot_uri: dcterms:issued
-      modified:
-        slot_uri: dcterms:modified
 
   # findings ---------------------
 
@@ -132,13 +124,6 @@ classes:
         range: integer
 
   # end findings ---------------------
-
-  Format:
-    slots:
-      - label
-    attributes:
-      uri:
-        identifier: true
 
   # histories ---------------------
 
@@ -277,31 +262,7 @@ classes:
 
   # end pathologies -----------------------------------
 
-  Properties:
-    description: |-
-      Bnode representing the properties associated with a patient.
-    slots:
-      - quality
-    attributes:
-      age:
-        slot_uri: foaf:age
-        range: integer
-      birth_date:
-        slot_uri: schema:birthDate
-        range: date
-      diagnosis:
-        slot_uri: schema:diagnosis
-        range: Pathology
-        inlined: true
-      gender:
-        slot_uri: schema:gender
-        range: GenderEnum
-
   # qualities ---------------------
-  Quality:
-    abstract: true
-    description: |-
-      A quality that is had by a patient.
 
   # Property Qualities
 
@@ -333,29 +294,6 @@ classes:
       value:
         range: Term
 
-  Subject:
-    class_uri: obo:NCIT_C16960
-    description: |-
-      Central class of the GBM model, or "Patient".
-    slots:
-      - id
-    attributes:
-      site:
-        slot_uri: sio:SIO_000066
-        any_of:
-          - range: schema:MedicalClinic
-          - range: schema:DiagnosticLab
-        multivalued: true
-      datafile:
-        slot_uri: dcterms:isPartOf
-        range: Datafile
-      properties:
-        slot_uri: sio:SIO_000223
-        range: Properties
-        inlined: true
-        inlined_as_list: false
-        multivalued: false
-
   Timestamp:
     description: |-
       Sometimes the target of IAO_0000581 (TBD)
@@ -363,31 +301,6 @@ classes:
       - label
 
 slots:
-  datasets:
-    slot_uri: gbm:datafiles #TBD
-    range: Datafile
-    inlined: true
-    inlined_as_list: true
-    multivalued: true
-  subjects:
-    slot_uri: gbm:subjects #TBD
-    range: Subject
-    inlined: true
-    inlined_as_list: true
-    multivalued: true
-  id:
-    identifier: true
-    slot_uri: dcterms:identifier
-    range: uriorcurie
-  label:
-    slot_uri: rdfs:label
-    range: string
-  quality:
-    slot_uri: obo:RO_0000086
-    range: Quality
-    inlined: true
-    inlined_as_list: true
-    multivalued: true
   timestamp:
     slot_uri: obo:IAO_0000581
     range: Timestamp
@@ -418,17 +331,6 @@ enums:
         meaning: obo:NCIT_C105722
       ECOG1:
         meaning: obo:NCIT_C105723
-
-  GenderEnum:
-    permissible_values:
-      M:
-        meaning: obo:NCIT_C16576
-      F:
-        meaning: obo:NCIT_C20197
-      unknown:
-        description: gender is not known
-        todos:
-          - map this to an ontology
 
   LocalizationEnum:
     permissible_values:

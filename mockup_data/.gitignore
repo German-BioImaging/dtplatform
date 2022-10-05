@@ -1,0 +1,6 @@
+*.gv
+*.pdf
+*.png
+*.xlsx
+*.ttl
+convert2rdf.py

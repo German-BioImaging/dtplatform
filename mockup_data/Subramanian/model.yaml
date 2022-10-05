@@ -1,0 +1,52 @@
+id: https://wellcomeleap.org/delta-tissue/models/mdr/tnbc
+name: tnbc
+license: https://creativecommons.org/publicdomain/zero/1.0/
+version: 0.0.1
+
+description: |-
+  Delta Tissue MDR model for TNBC data.
+
+
+imports:
+  - linkml:types
+  - ../model
+
+default_curi_maps:
+  - semweb_context
+
+default_range: string
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  clinic: http://clinicalsite.semscape.org/
+  dcat: http://www.w3.org/ns/dcat#
+  dcterms: http://purl.org/dc/terms/
+  efo: http://www.ebi.ac.uk/efo/
+  foaf: http://xmlns.com/foaf/0.1/
+  tnbc: https://wellcomeleap.org/delta-tissue/ns/tnbc/
+  lab: http://labsite.semscape.org/
+  node: http://idr.semscape.org/nodeURI/
+  obo: http://purl.obolibrary.org/obo/
+  # TBD: non-canonical use of https for schema.org
+  schema: https://schema.org/
+  sio: http://semanticscience.org/resource/
+  subject: http://subjects.semscape.org/
+  wd: http://www.wikidata.org/entity/
+  wdt: http://www.wikidata.org/prop/direct/
+  xsd: http://www.w3.org/2001/XMLSchema#
+
+default_prefix: tnbc
+
+classes:
+
+  # Subclassing ---------------
+
+  TNBCSubject:
+    is_a: Subject
+    class_uri: obo:NCIT_C16960
+    slot_usage:
+      properties:
+        range: TNBCProperties
+
+  TNBCProperties:
+    is_a: Properties
