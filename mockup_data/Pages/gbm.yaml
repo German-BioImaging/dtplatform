@@ -118,7 +118,17 @@ classes:
       - timestamp
       - unit
 
-  # TBD: Introduce "DrugUse" ?
+  DrugUse:
+    is_a: History
+    class_uri: obo:NCIT_C81246
+    attributes:
+      phase:
+        slot_uri: rdfs:label
+      time:
+        slot_uri: rdf:value
+        range: integer
+
+  # TBD: add to "DrugUse" hierarchy ?
 
   Bevacizumab:
     is_a: History
@@ -184,7 +194,10 @@ classes:
 
   # end measurements -----------------------------------
 
+  # pathologies -----------------------------------
+
   Pathology:
+    abstract: true
     description: |-
       it's complicated ... (TBD: bnode)
     slots:
@@ -220,6 +233,16 @@ classes:
         inlined: true
         inlined_as_list: true
         multivalued: true
+
+  GbmPathology:
+    is_a: Pathology
+    class_uri: obo:DOID_3068
+
+  AiiiPathology:
+    is_a: Pathology
+    class_uri: obo:FIXME
+
+  # end pathologies -----------------------------------
 
   Properties:
     description: |-
