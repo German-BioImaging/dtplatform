@@ -108,11 +108,14 @@ classes:
     description: |-
       Anatomical localization along with qualifiers
     slots:
-      - value  # range: TBD
+      - value
+    slot_usage:
+      value:
+        range: LocalizationEnum
     attributes:
       qualifier:
         slot_uri: obo:NCIT_A4
-
+        range: LocalizationEnum
 
   Pathology:
     description: |-
@@ -295,6 +298,20 @@ enums:
         description: gender is not known
         todos:
           - map this to an ontology
+
+  LocalizationEnum:
+    permissible_values:
+      Right:
+        meaning: obo:NCIT_C25228
+      Dorsal:
+        meaning: obo:NCIT_C45874
+      FrontalR:
+        meaning: obo:NCIT_C12352
+      TemporalD:
+        meaning: obo:NCIT_C12353
+      ParietalR:
+        meaning: obo:NCIT_C12354
+
   Term:
     permissible_values:
       steroid:
@@ -315,16 +332,12 @@ enums:
         meaning: obo:NCIT_C18213
       Adjuvant:
         meaning: obo:NCIT_C2140
-      Right:
-        meaning: obo:NCIT_C25228
       Cycle,:
         meaning: obo:NCIT_C25472
       Month:
         meaning: obo:NCIT_C29846
       ProgressiveDisease:
         meaning: obo:NCIT_C35571
-      Dorsal:
-        meaning: obo:NCIT_C45874
       CompleteRemission:
         meaning: obo:NCIT_C4870
       WildType:
