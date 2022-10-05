@@ -164,12 +164,41 @@ classes:
         slot_uri: schema:gender
         range: GenderEnum
 
+  # qualities ---------------------
   Quality:
+    abstract: true
     description: |-
       A quality that is had by a patient.
+
+  ECOG:
+    is_a: Quality
+    class_uri: obo:NCIT_C102408
+    slots:
+      - value
+    slot_usage:
+      value:
+        range: ECOGStatus
+
+  Dead:
+    is_a: Quality
+    class_uri: obo:NCIT_C28554
+    slots:
+      - value
+    slot_usage:
+      - range: boolean
+
+  LymphocyteCount:
+    is_a: Quality
+    class_uri: efo:EFO_0004587
     slots:
       - timestamp
       - unit
+      - value
+    slot_usage:
+      value:
+        range: float
+
+  # end qualities -------------------
 
   Specimen:
     class_uri: obo:NCIT_C70700
@@ -248,6 +277,14 @@ slots:
     multivalued: true
 
 enums:
+
+  ECOGStatus:
+    permissible_values:
+      ECOG0:
+        meaning: obo:NCIT_C105722
+      ECOG1:
+        meaning: obo:NCIT_C105723
+
   GenderEnum:
     permissible_values:
       M:
