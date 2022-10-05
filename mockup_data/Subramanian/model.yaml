@@ -47,6 +47,90 @@ classes:
     slot_usage:
       properties:
         range: TNBCProperties
+      specimens:
+        slot_uri: obo:OBI_0100051
+        range: Specimen
+        inlined: true
+        inlined_as_list: true
+        multivalued: true
 
   TNBCProperties:
     is_a: Properties
+
+  # Specimen ----------------------
+
+  Specimen:
+    class_uri: obo:NCIT_C19157
+    attributes:
+      collection:
+        slot_uri: obo:HSO_0000288
+        range: Collection
+        inlined: true
+        inlined_as_list: true
+        multivalued: true
+      finding:
+        slot_uri: obo:TXPO_0001873
+        range: Measurement
+        inlined: true
+        inlined_as_list: true
+        multivalued: true
+      handling:
+        slot_uri: obo:RO_0002334
+        range: Handling
+        inlined: true
+        inlined_as_list: true
+        multivalued: true
+      treatment:
+        slot_uri: wdt:P2176
+        range: Treatment
+        inlined: true
+        inlined_as_list: true
+        multivalued: true
+
+  Collection:
+    class_uri: obo:NCIT_C70700
+    attributes:
+      collectionMethod:
+        slot_uri: rdf:value
+        range: CollectionEnum
+
+  Measurement:
+    class_uri: obo:NCIT_C25209
+    attributes:
+      domain:
+        slot_uri: rdfs:domain
+        range: Term
+      unit:
+        slot_uri: sio:SIO_000221
+        range: Term
+      value:
+        slot_uri: rdf:value
+        range: float
+
+  Handling:
+    class_uri: obo:NCIT_C179745
+    attributes:
+      range:
+        slot_uri: rdfs:range
+      unit:
+        slot_uri: sio:SIO_000221
+        range: TimeEnum
+      value:
+        slot_uri: rdf:value
+
+  Treatment:
+    class_uri: obo:NCIT_C15665
+    attributes:
+      startDate:
+        slot_uri: schema:startDate
+        range: date
+
+enums:
+  CollectionEnum:
+    permissible_values:
+      Biopsy:
+        meaning: obo:NCIT_C15189
+      ExcisionalBiopsyOfBreast:
+        meaning: obo:NCIT_C51633
+      RadicalMastectomy:
+        meaning: obo:NCIT_C15279
