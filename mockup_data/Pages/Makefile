@@ -1,4 +1,4 @@
-JUPYTER=conda run -n jbook
+JUPYTER=conda run -n dt
 LINKML=conda run -n linkml
 SHEET=
 
@@ -49,6 +49,7 @@ mkdocs: docs
 	mkdocs serve
 
 convert2rdf.py: convert2rdf.ipynb
+	rm -f convert2rdf.py  # nbconvert doesn't like to overwrite files
 	$(JUPYTER) jupyter nbconvert --to python convert2rdf.ipynb convert2rdf.py
 
 test.ttl: convert2rdf.py
