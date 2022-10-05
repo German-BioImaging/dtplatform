@@ -93,17 +93,6 @@ classes:
         slot_uri: sio:SIO_000221
         range: Term
 
-  IDH:
-    class_uri: obo:NCIT_C157185
-    description: |-
-      IDH1/IDH2 Mutation Analysis
-    slots:
-      - timestamp
-      - value  # range: TBD
-    attributes:
-      unit:
-        range: string # TBD
-
   Localization:
     description: |-
       Anatomical localization along with qualifiers
@@ -117,6 +106,37 @@ classes:
         slot_uri: obo:NCIT_A4
         range: LocalizationEnum
 
+  # measurements -----------------------------------
+
+  Measurement:
+    abstract: true
+    slots:
+      - value
+
+  IDH:
+    is_a: Measurement
+    class_uri: obo:NCIT_C157185
+    description: |-
+      IDH1/IDH2 Mutation Analysis
+    slots:
+      - value
+    slot_usage:
+      value:
+        range: MutationTypeEnum
+
+  MGMT:
+    is_a: Measurement
+    class_uri: obo:NCIT_C79101
+    description: |-
+      MGMT Methylation Assay status
+    slots:
+      - value
+    slot_usage:
+      value:
+        range: MethylationEnum
+
+  # end measurements -----------------------------------
+
   Pathology:
     description: |-
       it's complicated ... (TBD: bnode)
@@ -126,26 +146,33 @@ classes:
       finding:
         slot_uri: obo:NCIT_R108
         range: Finding
-        multivalued: true
         inlined: true
+        inlined_as_list: true
+        multivalued: true
       history:
         slot_uri: obo:BFO_0000185
         range: History
+        inlined: true
+        inlined_as_list: true
         multivalued: true
-        inlined: true
-      idh:
+      measurement:
         slot_uri: obo:MICRO_0001469
-        range: IDH
+        range: Measurement
         inlined: true
+        inlined_as_list: true
+        multivalued: true
       localization:
         slot_uri: wd:P927
         range: Localization
         inlined: true
+        inlined_as_list: true
+        multivalued: true
       specimen:
         slot_uri: obo:HSO_0000308
         range: Specimen
-        multivalued: true
         inlined: true
+        inlined_as_list: true
+        multivalued: true
 
   Properties:
     description: |-
@@ -312,22 +339,30 @@ enums:
       ParietalR:
         meaning: obo:NCIT_C12354
 
+  MethylationEnum:
+    permissible_values:
+      UnmethylatedMGMTGenePromoter:
+        meaning: obo:NCIT_C132892
+      MGMTGenePromoterMethylation:
+        meaning: obo:NCIT_C153562
+
+  MutationTypeEnum:
+    permissible_values:
+      GeneMutation:
+        meaning: obo:NCIT_C18093
+      WildType:
+        meaning: obo:NCIT_C62195
+
   Term:
     permissible_values:
       steroid:
         meaning: obo:CHEBI_35341
       PartialResection:
         meaning: obo:NCIT_C131680
-      UnmethylatedMGMTGenePromoter:
-        meaning: obo:NCIT_C132892
-      MGMTGenePromoterMethylation:
-        meaning: obo:NCIT_C153562
       Biopsy,:
         meaning: obo:NCIT_C175027
       PartialRemission:
         meaning: obo:NCIT_C18058
-      GeneMutation:
-        meaning: obo:NCIT_C18093
       StableDisease:
         meaning: obo:NCIT_C18213
       Adjuvant:
@@ -340,8 +375,6 @@ enums:
         meaning: obo:NCIT_C35571
       CompleteRemission:
         meaning: obo:NCIT_C4870
-      WildType:
-        meaning: obo:NCIT_C62195
       DrugFIXME:
         meaning: obo:UO_0000022
       Biopsy:
