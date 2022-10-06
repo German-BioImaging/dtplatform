@@ -107,6 +107,12 @@ classes:
     description: |-
       A quality that is had by a patient.
 
+  Timestamp:
+    description: |-
+      Sometimes the target of IAO_0000581 (TBD)
+    slots:
+      - label
+
 slots:
   datasets:
     slot_uri: mdr:datafiles #TBD
@@ -127,6 +133,7 @@ slots:
     slot_uri: rdfs:range
   timestamp:
     slot_uri: obo:IAO_0000581
+    range: Timestamp
     inlined: true
   value:
     slot_uri: rdf:value

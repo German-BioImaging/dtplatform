@@ -302,12 +302,6 @@ classes:
     slot_usage:
         range: SpecimenEnum
 
-  Timestamp:
-    description: |-
-      Sometimes the target of IAO_0000581 (TBD)
-    slots:
-      - label
-
 enums:
 
   DiseaseReponseEnum:
