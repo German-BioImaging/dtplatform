@@ -59,6 +59,7 @@ classes:
     class_uri: obo:NCIT_C50995
     attributes:
       diseaseResponse:
+        slot_uri: rdf:value
         range: DiseaseReponseEnum
 
   DieseaseProgression:
@@ -66,6 +67,7 @@ classes:
     class_uri: obo:NCIT_C17747
     attributes:
       progression:
+        slot_uri: rdf:value
         range: boolean
 
   Edamatous:
@@ -73,6 +75,7 @@ classes:
     class_uri: obo:PATO_0001450
     attributes:
       edamatous:
+        slot_uri: rdf:value
         range: boolean
 
   LymphocyteCount:
@@ -82,33 +85,34 @@ classes:
       - timestamp
     attributes:
       lymphocyteCount:
-        range: float
         slot_uri: rdf:value
+        range: float
 
   PseudoProgression:
     is_a: Finding
     class_uri: obo:NCIT_C98298
     attributes:
       pseudoProgression:
+        slot_uri: rdf:value
         range: boolean
 
-  Survival:
-    is_a: Finding
-    slot_usage:
-      unit:
-        range: TimeEnum
+  # TBD: Introduce Survival base class?
 
   OverallSurvival:
-    is_a: Survival
+    is_a: Finding
     class_uri: obo:NCIT_C125201
+    slots:
+      - survival_unit
     attributes:
       monthsOS:
         slot_uri: rdf:value
         range: integer
 
   ProgressiveFreeSurvival:
-    is_a: Survival
+    is_a: Finding
     class_uri: obo:NCIT_C28234
+    slots:
+      - survival_unit
     attributes:
       monthsPFS:
         slot_uri: rdf:value
@@ -120,20 +124,20 @@ classes:
 
   History:
     abstract: true
-    slots:
-      - timestamp
-      - unit
 
   DrugUse:
     is_a: History
     class_uri: obo:NCIT_C81246
+    slots:
+      - timestamp
+      - drug_dose
     attributes:
       phase:
         slot_uri: rdfs:label
-      time:
+      drugUseTime:
         slot_uri: rdf:value
         range: integer
-      range:
+      drugUsed:
         slot_uri: rdfs:range
         range: Term
 
@@ -142,18 +146,24 @@ classes:
   Bevacizumab:
     is_a: History
     class_uri: obo:NCIT_C2039
+    slots:
+      - drug_cycles
     attributes:
       dosesBevacizumab:
+        slot_uri: rdf:value
         range: integer
 
   Temozolomide:
     is_a: History
     class_uri: obo:NCIT_C1244
+    slots:
+      - drug_cycles
     attributes:
       has_quality:
         slot_uri: obo:RO_0000086x # TBD
         range: Term
       cyclesAdjTMZ:
+        slot_uri: rdf:value
         range: integer
 
   # end histories ---------------------
@@ -162,13 +172,11 @@ classes:
     class_uri: obo:NCIT_C13717
     description: |-
       Anatomical localization along with qualifiers
-    slots:
-      - value
-    slot_usage:
-      value:
-        range: LocalizationEnum
     attributes:
-      qualifier:
+      anatomical_location:
+        slot_uri: rdf:value
+        range: LocalizationEnum
+      location_qualifier:
         slot_uri: obo:NCIT_A4
         range: LocalizationEnum
 
@@ -176,18 +184,15 @@ classes:
 
   Measurement:
     abstract: true
-    slots:
-      - value
 
   IDH:
     is_a: Measurement
     class_uri: obo:NCIT_C157185
     description: |-
       IDH1/IDH2 Mutation Analysis
-    slots:
-      - value
-    slot_usage:
-      value:
+    attributes:
+      mutation_type:
+        slot_uri: rdf:value
         range: MutationTypeEnum
 
   MGMT:
@@ -195,10 +200,9 @@ classes:
     class_uri: obo:NCIT_C79101
     description: |-
       MGMT Methylation Assay status
-    slots:
-      - value
-    slot_usage:
-      value:
+    attributes:
+      methylation_type:
+        slot_uri: rdf:value
         range: MethylationEnum
 
   # end measurements -----------------------------------
@@ -207,38 +211,36 @@ classes:
 
   Pathology:
     abstract: true
-    description: |-
-      it's complicated ... (TBD: bnode)
     slots:
       - quality
     attributes:
-      finding:
+      pathology_finding:
         slot_uri: obo:NCIT_R108
         range: Finding
         inlined: true
         inlined_as_list: true
         multivalued: true
-      history:
+      pathology_history:
         slot_uri: obo:BFO_0000185
         range: History
         inlined: true
         inlined_as_list: true
         multivalued: true
-      measurement:
+      pathology_measurement:
         slot_uri: obo:MICRO_0001469
         range: Measurement
         inlined: true
         inlined_as_list: true
         multivalued: true
-      localization:
+      pathology_localization:
         slot_uri: wdt:P927
         range: Localization
         inlined: true
         inlined_as_list: true
         multivalued: true
-      specimen:
+      pathology_specimen:
         slot_uri: obo:HSO_0000308
-        range: Specimen
+        range: BioSpecimen
         inlined: true
         inlined_as_list: true
         multivalued: true
@@ -275,23 +277,32 @@ classes:
 
   # end qualities -------------------
 
-  Specimen:
+  BioSpecimen:
     class_uri: obo:NCIT_C70700
     description: |-
       Archived specimen from a subject.
-    slots:
-      - value
-    slot_usage:
-      value:
-        range: Term
+    attributes:
+      specimen_source:
+        slot_uri: rdf:value
+        range: SpecimenEnum
 
   Timestamp:
     description: |-
       Sometimes the target of IAO_0000581 (TBD)
-    slots:
-      - label
+    attributes:
+      timestamp_label:
+        slot_uri: rdfs:label
 
 slots:
+  drug_cycles:
+    slot_uri: sio:SIO_000221
+    range: Term
+  drug_dose:
+    slot_uri: sio:SIO_000221
+    range: Term
+  survival_unit:
+    slot_uri: sio:SIO_000221
+    range: TimeEnum
   timestamp:
     slot_uri: obo:IAO_0000581
     range: Timestamp
@@ -299,9 +310,6 @@ slots:
   unit:
     slot_uri: sio:SIO_000221
     range: Term
-  value:
-    slot_uri: rdf:value
-    multivalued: true
 
 enums:
 

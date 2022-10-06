@@ -48,11 +48,11 @@ classes:
     class_uri: dcat:Dataset
     description: |-
       Dataset definition which introduced a particular subject.
-    slots:
-      - label
     attributes:
       uri:
         identifier: true
+      file_label:
+        slot_uri: rdfs:label
       format:
         slot_uri: dcterms:format
         range: Format
@@ -63,9 +63,9 @@ classes:
         slot_uri: dcterms:modified
 
   Format:
-    slots:
-      - label
     attributes:
+      format_label:
+        slot_uri: rdfs:label
       uri:
         identifier: true
 
@@ -73,16 +73,14 @@ classes:
     abstract: true
     description: |-
       Central class of the MDR model, or "Patient".
-    slots:
-      - id
     attributes:
-      site:
+      source_site:
         slot_uri: sio:SIO_000066
         any_of:
           - range: schema:MedicalClinic
           - range: schema:DiagnosticLab
         multivalued: true
-      datafile:
+      source_datafile:
         slot_uri: dcterms:isPartOf
         range: Datafile
       properties:
@@ -98,13 +96,13 @@ classes:
     slots:
       - quality
     attributes:
-      age:
+      subject_age:
         slot_uri: foaf:age
         range: integer
       birth_date:
         slot_uri: schema:birthDate
         range: date
-      gender:
+      subject_gender:
         slot_uri: schema:gender
         range: GenderEnum
 
@@ -154,22 +152,25 @@ enums:
         todos:
           - map this to an ontology
 
+  SpecimenEnum:
+    permissible_values:
+      Biopsy:
+        meaning: obo:NCIT_C15189
+      CompleteResection:
+        meaning: obo:NCIT_C175027
+      PartialResection:
+        meaning: obo:NCIT_C131680
+
   Term:
     permissible_values:
       steroid:
         meaning: obo:CHEBI_35341
-      PartialResection:
-        meaning: obo:NCIT_C131680
-      CompleteResection:
-        meaning: obo:NCIT_C175027
       Adjuvant:
         meaning: obo:NCIT_C2140
       Cycle:
         meaning: obo:NCIT_C25472
       DrugFIXME:
         meaning: obo:UO_0000022
-      Biopsy:
-        meaning: obo:NCIT_C15189
       # Added for TNBC
       Percentage:
         meaning: obo:SIO_001413
@@ -198,3 +199,5 @@ enums:
 # Lessons learned:
 # - don't have class and property name the same
 # - don't have the same enum in multiple Enums
+# - don't omit slot_uri anywhere (especially for rdf:value!)
+# - avoid using the same attribute name
