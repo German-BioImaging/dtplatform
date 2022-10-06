@@ -87,16 +87,6 @@ classes:
       value:
         range: boolean
 
-  LymphocyteCount:
-    is_a: Finding
-    class_uri: efo:EFO_0004587
-    slots:
-      - timestamp
-      - value
-    slot_usage:
-      value:
-        range: float
-
   PseudoProgression:
     is_a: Finding
     class_uri: obo:NCIT_C98298
@@ -288,6 +278,18 @@ classes:
       - value
     slot_usage:
         range: boolean
+
+  LymphocyteCount:
+    is_a: Quality
+    class_uri: efo:EFO_0004587
+    slots:
+      - timestamp
+      - value
+      - unit
+    slot_usage:
+      value:
+        range: float
+
 
   # end qualities -------------------
 
