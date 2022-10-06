@@ -41,7 +41,6 @@ classes:
       Root container for the primary identifiers in this dataset.
     tree_root: true
     slots:
-      - subjects
       - datasets
 
   Datafile:
@@ -69,8 +68,7 @@ classes:
       uri:
         identifier: true
 
-  Subject:
-    abstract: true
+  BaseSubject:
     description: |-
       Central class of the MDR model, or "Patient".
     attributes:
@@ -83,14 +81,12 @@ classes:
       source_datafile:
         slot_uri: dcterms:isPartOf
         range: Datafile
-      properties:
-        slot_uri: sio:SIO_000223
-        range: Properties
-        inlined: true
-        inlined_as_list: false
-        multivalued: false
+      subject_id:
+        identifier: true
+        slot_uri: dcterms:identifier
+        range: uriorcurie
 
-  Properties:
+  BaseProperties:
     description: |-
       Bnode representing the properties associated with a patient.
     slots:
@@ -112,27 +108,12 @@ classes:
       A quality that is had by a patient.
 
 slots:
-  # Root slots
   datasets:
     slot_uri: mdr:datafiles #TBD
     range: Datafile
     inlined: true
     inlined_as_list: true
     multivalued: true
-  subjects:
-    slot_uri: mdr:subjects #TBD
-    range: Subject
-    inlined: true
-    inlined_as_list: true
-    multivalued: true
-  # Other slots
-  id:
-    identifier: true
-    slot_uri: dcterms:identifier
-    range: uriorcurie
-  label:
-    slot_uri: rdfs:label
-    range: string
   quality:
     slot_uri: obo:RO_0000086
     range: Quality

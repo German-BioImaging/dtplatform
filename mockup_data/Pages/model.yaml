@@ -30,17 +30,23 @@ default_prefix: gbm
 
 classes:
 
-  # Subclassing ---------------
-
   GBMSubject:
-    is_a: Subject
     class_uri: obo:NCIT_C16960
-    slot_usage:
-      properties:
+    description: |-
+      Central class of the MDR model, or "Patient".
+    mixins:
+      - BaseSubject
+    attributes:
+      subject_properties:
+        slot_uri: sio:SIO_000223
         range: GBMProperties
+        inlined: true
+        inlined_as_list: false
+        multivalued: false
 
   GBMProperties:
-    is_a: Properties
+    mixins:
+      - BaseProperties
     attributes:
       diagnosis:
         slot_uri: schema:diagnosis
