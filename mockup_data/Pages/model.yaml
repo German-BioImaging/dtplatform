@@ -41,8 +41,6 @@ classes:
         slot_uri: sio:SIO_000223
         range: GBMProperties
         inlined: true
-        inlined_as_list: false
-        multivalued: false
 
   GBMProperties:
     mixins:
@@ -51,7 +49,6 @@ classes:
       diagnosis:
         slot_uri: schema:diagnosis
         range: Pathology
-        inlined: true
 
   # findings ---------------------
 
@@ -221,32 +218,22 @@ classes:
       pathology_finding:
         slot_uri: obo:NCIT_R108
         range: Finding
-        inlined: true
-        inlined_as_list: true
         multivalued: true
       pathology_history:
         slot_uri: obo:BFO_0000185
         range: History
-        inlined: true
-        inlined_as_list: true
         multivalued: true
       pathology_measurement:
         slot_uri: obo:MICRO_0001469
         range: Measurement
-        inlined: true
-        inlined_as_list: true
         multivalued: true
       pathology_localization:
         slot_uri: wdt:P927
         range: Localization
-        inlined: true
-        inlined_as_list: true
         multivalued: true
       pathology_specimen:
         slot_uri: obo:HSO_0000308
         range: BioSpecimen
-        inlined: true
-        inlined_as_list: true
         multivalued: true
 
   GbmPathology:

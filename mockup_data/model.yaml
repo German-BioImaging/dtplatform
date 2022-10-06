@@ -55,7 +55,6 @@ classes:
       format:
         slot_uri: dcterms:format
         range: Format
-        inlined: true
       issued:
         slot_uri: dcterms:issued
       modified:
@@ -117,14 +116,10 @@ slots:
   datasets:
     slot_uri: mdr:datafiles #TBD
     range: Datafile
-    inlined: true
-    inlined_as_list: true
     multivalued: true
   quality:
     slot_uri: obo:RO_0000086
     range: Quality
-    inlined: true
-    inlined_as_list: true
     multivalued: true
   # Overly generic slots
   label:
