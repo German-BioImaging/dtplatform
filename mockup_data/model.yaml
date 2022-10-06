@@ -162,7 +162,7 @@ enums:
         meaning: obo:CHEBI_35341
       PartialResection:
         meaning: obo:NCIT_C131680
-      Biopsy:
+      CompleteResection:
         meaning: obo:NCIT_C175027
       Adjuvant:
         meaning: obo:NCIT_C2140
