@@ -162,11 +162,11 @@ enums:
         meaning: obo:CHEBI_35341
       PartialResection:
         meaning: obo:NCIT_C131680
-      Biopsy,:
+      Biopsy:
         meaning: obo:NCIT_C175027
       Adjuvant:
         meaning: obo:NCIT_C2140
-      Cycle,:
+      Cycle:
         meaning: obo:NCIT_C25472
       DrugFIXME:
         meaning: obo:UO_0000022
