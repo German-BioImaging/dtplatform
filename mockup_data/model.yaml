@@ -29,8 +29,6 @@ prefixes:
   # TBD: non-canonical use of https for schema.org
   schema: https://schema.org/
   sio: http://semanticscience.org/resource/
-  subject: http://subjects.semscape.org/
-  wd: http://www.wikidata.org/entity/
   wdt: http://www.wikidata.org/prop/direct/
   xsd: http://www.w3.org/2001/XMLSchema#
 
