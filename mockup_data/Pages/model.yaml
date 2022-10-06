@@ -63,25 +63,28 @@ classes:
   DiseaseResponse:
     is_a: Finding
     class_uri: obo:NCIT_C50995
-    attributes:
-      diseaseResponse:
-        slot_uri: rdf:value
+    slots:
+      - value
+    slot_usage:
+      value:
         range: DiseaseReponseEnum
 
   DieseaseProgression:
     is_a: Finding
     class_uri: obo:NCIT_C17747
-    attributes:
-      progression:
-        slot_uri: rdf:value
+    slots:
+      - value
+    slot_usage:
+      value:
         range: boolean
 
   Edamatous:
     is_a: Finding
     class_uri: obo:PATO_0001450
-    attributes:
-      edamatous:
-        slot_uri: rdf:value
+    slots:
+      - value
+    slot_usage:
+      value:
         range: boolean
 
   LymphocyteCount:
@@ -89,17 +92,18 @@ classes:
     class_uri: efo:EFO_0004587
     slots:
       - timestamp
-    attributes:
-      lymphocyteCount:
-        slot_uri: rdf:value
+      - value
+    slot_usage:
+      value:
         range: float
 
   PseudoProgression:
     is_a: Finding
     class_uri: obo:NCIT_C98298
-    attributes:
-      pseudoProgression:
-        slot_uri: rdf:value
+    slots:
+      - value
+    slot_usage:
+      value:
         range: boolean
 
   # TBD: Introduce Survival base class?
@@ -108,20 +112,20 @@ classes:
     is_a: Finding
     class_uri: obo:NCIT_C125201
     slots:
-      - survival_unit
-    attributes:
-      monthsOS:
-        slot_uri: rdf:value
+      - unit
+      - value
+    slot_usage:
+      value:
         range: integer
 
   ProgressiveFreeSurvival:
     is_a: Finding
     class_uri: obo:NCIT_C28234
     slots:
-      - survival_unit
-    attributes:
-      monthsPFS:
-        slot_uri: rdf:value
+      - unit
+      - value
+    slot_usage:
+      value:
         range: integer
 
   # end findings ---------------------
@@ -136,15 +140,14 @@ classes:
     class_uri: obo:NCIT_C81246
     slots:
       - timestamp
-      - drug_dose
-    attributes:
-      phase:
-        slot_uri: rdfs:label
-      drugUseTime:
-        slot_uri: rdf:value
+      - label
+      - range
+      - unit
+      - value
+    slot_usage:
+      value:
         range: integer
-      drugUsed:
-        slot_uri: rdfs:range
+      unit:
         range: Term
 
   # TBD: add to "DrugUse" hierarchy ?
@@ -153,24 +156,25 @@ classes:
     is_a: History
     class_uri: obo:NCIT_C2039
     slots:
-      - drug_cycles
-    attributes:
-      dosesBevacizumab:
-        slot_uri: rdf:value
+      - unit
+      - value
+    slot_usage:
+      value:
         range: integer
 
   Temozolomide:
     is_a: History
     class_uri: obo:NCIT_C1244
     slots:
-      - drug_cycles
+      - unit
+      - value
+    slot_usage:
+      value:
+        range: integer
     attributes:
       has_quality:
         slot_uri: obo:RO_0000086x # TBD
         range: Term
-      cyclesAdjTMZ:
-        slot_uri: rdf:value
-        range: integer
 
   # end histories ---------------------
 
@@ -178,10 +182,12 @@ classes:
     class_uri: obo:NCIT_C13717
     description: |-
       Anatomical localization along with qualifiers
-    attributes:
-      anatomical_location:
-        slot_uri: rdf:value
+    slots:
+      - value
+    slot_usage:
+      value:
         range: LocalizationEnum
+    attributes:
       location_qualifier:
         slot_uri: obo:NCIT_A4
         range: LocalizationEnum
@@ -196,9 +202,10 @@ classes:
     class_uri: obo:NCIT_C157185
     description: |-
       IDH1/IDH2 Mutation Analysis
-    attributes:
-      mutation_type:
-        slot_uri: rdf:value
+    slots:
+      - value
+    slot_usage:
+      value:
         range: MutationTypeEnum
 
   MGMT:
@@ -206,9 +213,10 @@ classes:
     class_uri: obo:NCIT_C79101
     description: |-
       MGMT Methylation Assay status
-    attributes:
-      methylation_type:
-        slot_uri: rdf:value
+    slots:
+      - value
+    slot_usage:
+      value:
         range: MethylationEnum
 
   # end measurements -----------------------------------
@@ -268,17 +276,17 @@ classes:
   ECOG:
     is_a: Quality
     class_uri: obo:NCIT_C102408
-    attributes:
-      ecog:
-        slot_uri: rdf:value
+    slots:
+      - value
+    slot_usage:
         range: ECOGStatus
 
   Dead:
     is_a: Quality
     class_uri: obo:NCIT_C28554
-    attributes:
-      deceased:
-        slot_uri: rdf:value
+    slots:
+      - value
+    slot_usage:
         range: boolean
 
   # end qualities -------------------
@@ -287,35 +295,16 @@ classes:
     class_uri: obo:NCIT_C70700
     description: |-
       Archived specimen from a subject.
-    attributes:
-      specimen_source:
-        slot_uri: rdf:value
+    slots:
+      - value
+    slot_usage:
         range: SpecimenEnum
 
   Timestamp:
     description: |-
       Sometimes the target of IAO_0000581 (TBD)
-    attributes:
-      timestamp_label:
-        slot_uri: rdfs:label
-
-slots:
-  drug_cycles:
-    slot_uri: sio:SIO_000221
-    range: Term
-  drug_dose:
-    slot_uri: sio:SIO_000221
-    range: Term
-  survival_unit:
-    slot_uri: sio:SIO_000221
-    range: TimeEnum
-  timestamp:
-    slot_uri: obo:IAO_0000581
-    range: Timestamp
-    inlined: true
-  unit:
-    slot_uri: sio:SIO_000221
-    range: Term
+    slots:
+      - label
 
 enums:
 

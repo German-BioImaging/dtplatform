@@ -120,6 +120,19 @@ slots:
     inlined: true
     inlined_as_list: true
     multivalued: true
+  # Overly generic slots
+  label:
+    slot_uri: rdfs:label
+  range:
+    slot_uri: rdfs:range
+  timestamp:
+    slot_uri: obo:IAO_0000581
+    inlined: true
+  value:
+    slot_uri: rdf:value
+    multivalued: true
+  unit:
+    slot_uri: sio:SIO_000221
 
 enums:
   GenderEnum:
