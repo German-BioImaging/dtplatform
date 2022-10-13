@@ -47,11 +47,11 @@ classes:
     class_uri: dcat:Dataset
     description: |-
       Dataset definition which introduced a particular subject.
+    slots:
+      - label
     attributes:
       uri:
         identifier: true
-      file_label:
-        slot_uri: rdfs:label
       format:
         slot_uri: dcterms:format
         range: Format
@@ -59,11 +59,17 @@ classes:
         slot_uri: dcterms:issued
       modified:
         slot_uri: dcterms:modified
+      subjects:
+        slot_uri: obo:subjects
+        range: GBMSubject
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
 
   Format:
+    slots:
+      - label
     attributes:
-      format_label:
-        slot_uri: rdfs:label
       uri:
         identifier: true
 
@@ -90,13 +96,11 @@ classes:
       Bnode representing the properties associated with a patient.
     slots:
       - quality
+      - birthDate
     attributes:
       subject_age:
         slot_uri: foaf:age
         range: integer
-      birth_date:
-        slot_uri: schema:birthDate
-        range: date
       subject_gender:
         slot_uri: schema:gender
         range: GenderEnum
@@ -122,10 +126,18 @@ slots:
     range: Quality
     multivalued: true
   # Overly generic slots
+  birthDate:
+    slot_uri: schema:birthDate
+    range: date
+  domain:
+    slot_uri: rdfs:domain
   label:
     slot_uri: rdfs:label
   range:
     slot_uri: rdfs:range
+  startDate:
+    slot_uri: schema:startDate
+    range: date
   timestamp:
     slot_uri: obo:IAO_0000581
     range: Timestamp
