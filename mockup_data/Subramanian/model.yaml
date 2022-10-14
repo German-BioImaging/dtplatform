@@ -18,7 +18,7 @@ default_range: string
 
 prefixes:
   linkml: https://w3id.org/linkml/
-  clinic: http://clinicalsite.semscape.org/
+  ccf: http://purl.org/ccf/
   dcat: http://www.w3.org/ns/dcat#
   dcterms: http://purl.org/dc/terms/
   efo: http://www.ebi.ac.uk/efo/
@@ -31,6 +31,7 @@ prefixes:
   schema: https://schema.org/
   sio: http://semanticscience.org/resource/
   subject: http://subjects.semscape.org/
+  tdwg: http://rs.tdwg.org/dwc/terms/
   wd: http://www.wikidata.org/entity/
   wdt: http://www.wikidata.org/prop/direct/
   xsd: http://www.w3.org/2001/XMLSchema#
@@ -39,53 +40,75 @@ default_prefix: tnbc
 
 classes:
 
-  # Subclassing ---------------
-
   TNBCSubject:
-    is_a: Subject
     class_uri: obo:NCIT_C16960
-    slot_usage:
-      properties:
+    mixins:
+      - BaseSubject
+    attributes:
+      subject_properties:
+        slot_uri: obo:SIO_000223
         range: TNBCProperties
-      specimens:
+        inlined: true
+      subject_specimens:
         slot_uri: obo:OBI_0100051
         range: Specimen
-        inlined: true
-        inlined_as_list: true
         multivalued: true
 
   TNBCProperties:
-    is_a: Properties
+    mixins:
+      - BaseProperties
+    attributes:
+      ethnicity:
+        slot_uri: ccf:has_ethnicity
+        range: EthnicityEnum
+      history:
+        slot_uri: obo:BFO_0000185
+        range: History
+        multivalued: true
 
   # Specimen ----------------------
 
   Specimen:
     class_uri: obo:NCIT_C19157
     attributes:
+      children:
+        slot_uri: schema:children
+        range: Sequence
       collection:
         slot_uri: obo:HSO_0000288
         range: Collection
-        inlined: true
-        inlined_as_list: true
         multivalued: true
       finding:
         slot_uri: obo:TXPO_0001873
         range: Measurement
-        inlined: true
-        inlined_as_list: true
         multivalued: true
       handling:
         slot_uri: obo:RO_0002334
         range: Handling
-        inlined: true
-        inlined_as_list: true
         multivalued: true
+      lifeStage:
+        slot_uri: tdwg:lifeStage
+        range: LifeStageEnum
       treatment:
         slot_uri: wdt:P2176
         range: Treatment
-        inlined: true
-        inlined_as_list: true
         multivalued: true
+
+  Sequence:
+    class_uri: rdf:Seq
+    attributes:
+      members:
+        slot_uri: foaf:member
+        range: Child
+
+  Child:
+    slots:
+      - birthDate
+    attributes:
+      order:
+        slot_uri: obo:STATO_0000382
+        range: Term # FIXME
+
 
   Collection:
     class_uri: obo:NCIT_C70700
@@ -94,36 +117,128 @@ classes:
         slot_uri: rdf:value
         range: CollectionEnum
 
+
+  # TODO: migrate with Pages/ History to top-level?
+  History:
+    abstract: true
+
+  FamilyHistory:
+    class_uri: rdf:Bag
+    slots:
+      - domain
+    slot_usage:
+      domain: Term # FixMe
+    attributes:
+      member:
+        slot_uri: rdfs:member
+        range: FamilyHistoryItem
+
+  FamilyHistoryItem:
+
+
+  PregnancyHistory:
+    is_a: History
+    class_uri: obo:OBI_0002393
+    attributes:
+      finding:
+        slot_uri: obo:TXPO_0001873
+        range: Measurement
+
   Measurement:
     class_uri: obo:NCIT_C25209
-    attributes:
+    slots:
+      - domain
+      - unit
+      - value
+    slot_usage:
       domain:
-        slot_uri: rdfs:domain
         range: Term
       unit:
-        slot_uri: sio:SIO_000221
         range: Term
       value:
-        slot_uri: rdf:value
         range: float
+
+  Ki67:
+    is_a: Measurement
+    slot_usage:
+      domain:
+        range: Term # Ki67 measurement FIXME
+      value:
+        range: float
+      unit:
+        range: Term
+
+  # TODO limit on domain 
+  EstrogenRceptor:
+    is_a: Measurement
+    slot_usage:
+      domain:
+        range: ReceptorStatus
+      value:
+        range: boolean
+
+  Her2CopyNumber:
+    is_a: Measurement
+    slot_usage:
+      domain:
+        range: ReceptorStatus
+      value:
+        range: boolean
+
+  ProgesteroneReceptor:
+    is_a: Measurement
+    slot_usage:
+      domain:
+        range: ReceptorStatus
+      value:
+        range: boolean
+
+  Gravida:
+    is_a: Measurement
+    class_uri: obo:NCIT_C73435
+    slots:
+      - value
+    slot_usage:
+      value:
+        range: integer
+
+  Parity:
+    is_a: Measurement
+    class_uri: obo:NCIT_C16955
+    slots:
+      - value
+    slot_usage:
+      value:
+        range: integer
 
   Handling:
     class_uri: obo:NCIT_C179745
-    attributes:
-      range:
-        slot_uri: rdfs:range
+    slots:
+      - range
+      - unit
+      - value
+    slot_usage:
       unit:
-        slot_uri: sio:SIO_000221
         range: TimeEnum
       value:
-        slot_uri: rdf:value
+        range: integer
+
+  HypoxiaTime:
+    is_a: Handling
+    slot_usage:
+      range: FixationEnum
+
+  FormalineFixTime:
+    is_a: Handling
+    slot_usage:
+      range: FixationEnum
 
   Treatment:
     class_uri: obo:NCIT_C15665
-    attributes:
-      startDate:
-        slot_uri: schema:startDate
-        range: date
+    #class_uri: obo:NCIT_C62554 # FIXME
+    slots:
+      - range
+      - startDate
 
 enums:
   CollectionEnum:
@@ -134,3 +249,41 @@ enums:
         meaning: obo:NCIT_C51633
       RadicalMastectomy:
         meaning: obo:NCIT_C15279
+
+  EthnicityEnum:
+    permissible_values:
+      Asian:
+        meaning: obo:NCIT_C41260
+      BlackOrAfricanAmerican:
+        meaning: obo:NCIT_C16352
+      White:
+        meaning: obo:NCIT_C41261
+      AmericanIndianOrAlaskaNative:
+        meaning: obo:NCIT_C41259
+      HispanicOrLation:
+        meaning: obo:NCIT_C17459
+
+  FixationEnum:
+    permissible_values:
+      CellHypoxia:
+        meaning: obo:OMIT_0016357
+      FormalineFixTime:
+        meaning: obo:OBIB_0000718
+
+  LifeStageEnum:
+    permissible_values:
+      Premenopause:
+        meaning: obo:OMIT_0018003
+      Perimenopause:
+        meaning: obo:OMIT_0023947
+      Postmenopause:
+        meaning: obo:OMIT_0018004
+
+  ReceptorStatus:
+    permissible_values:
+      EstrogenReceptorStatus:
+        meaning: obo:NCIT_C16150
+      HER2CopyNumberMeasurement:
+        meaning: obo:NCIT_C184942
+      ProgesteroneReceptorStatus:
+        meaning: obo:NCIT_C16149

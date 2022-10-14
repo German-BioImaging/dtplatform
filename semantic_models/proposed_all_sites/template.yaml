@@ -1,0 +1,61 @@
+id: https://wellcomeleap.org/delta-tissue/models/common/
+name: common
+license: https://creativecommons.org/publicdomain/zero/1.0/
+version: 0.0.1
+
+description: |-
+  Delta Tissue Common Model
+
+imports:
+  - linkml:types
+
+default_curi_maps:
+  - semweb_context
+
+default_range: string
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  clinic: http://clinicalsite.semscape.org/
+  dcat: http://www.w3.org/ns/dcat#
+  dcterms: http://purl.org/dc/terms/
+  efo: http://www.ebi.ac.uk/efo/
+  foaf: http://xmlns.com/foaf/0.1/
+  mdr: https://wellcomeleap.org/delta-tissue/ns/mdr/
+  lab: http://labsite.semscape.org/
+  node: http://idr.semscape.org/nodeURI/
+  obo: http://purl.obolibrary.org/obo/
+  # TBD: non-canonical use of https for schema.org
+  schema: https://schema.org/
+  sio: http://semanticscience.org/resource/
+  wdt: http://www.wikidata.org/prop/direct/
+  xsd: http://www.w3.org/2001/XMLSchema#
+
+default_prefix: common
+
+{# ------------------- #}
+{%- macro range(stmt) %}
+{%- if stmt.valueShape is string %}range: {{ stmt.valueShape }}
+{%- elif stmt.valueDataType is string %}range: {{ stmt.valueDataType }}
+{%- else %}range: UNKNOWN
+{%- endif %}
+{%- endmacro %}
+{# ------------------- #}
+
+classes:
+
+  Root:
+    description: |-
+      Root container for the primary identifiers in this dataset.
+    tree_root: true
+
+{%- for shape in shapes: %}
+  {{ shape.shapeID}}:
+    attributes:
+      {%- for stmt in shape.statement_templates: %}
+        {{ stmt.propertyLabel }}:
+          slot_uri: {{ stmt.propertyID }}
+          {{ range(stmt) }}
+      {%- endfor %}
+
+{%- endfor %}

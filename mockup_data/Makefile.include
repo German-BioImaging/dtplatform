@@ -6,10 +6,13 @@ MODEL=model.yaml
 ### RDF WORKFLOW ################################
 
 out.jsonld: $(MODEL )test.ttl
-	$(LINKML) linkml-convert -f ttl -t json-ld -s $(MODEL) -C Subject test.ttl -o out.jsonld
+	$(LINKML) linkml-convert -f ttl -t json-ld -s $(MODEL) -C $(TARGET) test.ttl -o out.jsonld
 
 out.yaml: $(MODEL) test.ttl
-	$(LINKML) linkml-convert -f ttl -t yaml -s $(MODEL) -C Subject test.ttl -o out.yaml
+	$(LINKML) linkml-convert -f ttl -t yaml -s $(MODEL) -C $(TARGET) test.ttl -o out.yaml
+
+out.tsv: $(MODEL) test.ttl
+	$(LINKML) linkml-convert --no-validate -f ttl -t tsv -s $(MODEL) --index-slot subjects -C Datafile test.ttl -o out.tsv
 
 ### TABULAR WORKFLOW ############################
 
@@ -19,14 +22,14 @@ tabular: out.json
 test.tsv: test.xlsx
 	xlsx2csv -s 1 -d tab test.xlsx test.tsv
 
-out.tsv: test.tsv preprocess.py clinics.tsv labs.tsv
-	python preprocess.py test.tsv out.tsv
+preprocessed.tsv: test.tsv preprocess.py clinics.tsv labs.tsv
+	python preprocess.py test.tsv in.tsv
 
-out.json: out.tsv $(MODEL)
-	$(LINKML) linkml-convert -f tsv -t json -s $(MODEL) -C Root -S subjects out.tsv -o out.json
+out.json: preprocessed.tsv $(MODEL)
+	$(LINKML) linkml-convert -f tsv -t json -s $(MODEL) -C Root -S subjects preprocessed.tsv -o out.json
 
-out.ttl: out.tsv $(MODEL)
-	$(LINKML) linkml-convert -f tsv -t ttl -s $(MODEL) -C Root -S subjects out.tsv -o out.ttl
+out.ttl: preprocessed.tsv $(MODEL)
+	$(LINKML) linkml-convert -f tsv -t ttl -s $(MODEL) -C Root -S subjects preprocessed.tsv -o out.ttl
 
 #
 # Schema level tools
@@ -60,6 +63,6 @@ graphviz: convert2rdf.py
 	python convert2rdf.py
 
 clean:
-	rm -rf convert2rdf.py test.tsv out.tsv out.ttl out.json out.yaml schema.png docs
+	rm -rf convert2rdf.py test.tsv preprocessed.tsv out.tsv out.ttl out.json out.yaml schema.png docs
 
 .PHONY: graphviz lint mkdocs tabular

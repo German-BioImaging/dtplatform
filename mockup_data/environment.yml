@@ -1,0 +1,9 @@
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python
+  - pip:
+      - click_loglevel
+      - git+https://github.com/joshmoore/linkml.git@subclass-info
+      - git+https://github.com/joshmoore/linkml-runtime.git@subclass-info
